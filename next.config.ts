@@ -14,14 +14,46 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  compress: true,
+  generateEtags: true,
   turbopack: {
     root: path.resolve(__dirname),
   },
   async headers() {
     return [
+      // Security headers everywhere
       {
         source: "/(.*)",
         headers: securityHeaders,
+      },
+      // Public assets (logos, portraits, story images): long cache, can revalidate
+      {
+        source: "/:path*.(png|jpg|jpeg|webp|avif|svg|ico|woff|woff2)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      // HTML pages: never cache, so a new build never has stale chunk references
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/:path((?!_next|api).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+        ],
       },
     ];
   },
