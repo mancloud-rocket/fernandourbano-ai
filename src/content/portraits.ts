@@ -1,13 +1,7 @@
 /**
- * Portrait system for the hero "Living Contact Sheet".
- *
- * Each portrait is a distinct artistic treatment of Fernando.
- * Files live in `/public/portraits/`. Replace the `*.svg` placeholders with
- * real Nano Banana Pro outputs (.jpg / .webp) and update `src` here.
- *
- * Image spec: 3:4 portrait, 1080×1440 minimum, dark editorial palette
- * (deep ink black, cream highlights, teal accent). See PORTRAITS.md for
- * the exact generation prompts.
+ * Hero "Living Contact Sheet" — 6 fotos reales.
+ * Orden: primero las tomas en solitario (01-03), despues las acompanadas (04-06).
+ * Archivos: `/public/portraits/01.jpeg` ... `06.jpeg` (3:4 vertical).
  */
 
 export type PortraitFacet =
@@ -26,87 +20,86 @@ export type Portrait = {
   facetLabel: { es: string; en: string };
   caption: { es: string; en: string };
   src: string;
-  /** Set false until a real photo replaces the SVG placeholder. */
   isReal: boolean;
 };
 
 export const portraits: Portrait[] = [
   {
-    id: "cinematic",
+    id: "01",
     number: "01",
+    facet: "cover",
+    styleLabel: { es: "Nasdaq MarketSite", en: "Nasdaq MarketSite" },
+    facetLabel: { es: "Hito", en: "Milestone" },
+    caption: {
+      es: "Nasdaq · New York · 2025",
+      en: "Nasdaq · New York · 2025",
+    },
+    src: "/portraits/01.jpeg",
+    isReal: true,
+  },
+  {
+    id: "02",
+    number: "02",
     facet: "speaker",
-    styleLabel: { es: "Cinematográfico editorial", en: "Cinematic editorial" },
+    styleLabel: { es: "Keynote en escenario", en: "Stage keynote" },
     facetLabel: { es: "Orador", en: "Speaker" },
     caption: {
-      es: "RPA Day · Madrid · 2024",
-      en: "RPA Day · Madrid · 2024",
+      es: "Gartner Hype Cycle · Rocketbot · 2025",
+      en: "Gartner Hype Cycle · Rocketbot · 2025",
     },
-    src: "/portraits/01-cinematic.jpeg",
+    src: "/portraits/02.jpeg",
     isReal: true,
   },
   {
-    id: "duotone",
-    number: "02",
-    facet: "cover",
-    styleLabel: { es: "Duotono alto contraste", en: "High-contrast duotone" },
-    facetLabel: { es: "Portada", en: "Cover" },
-    caption: {
-      es: "Editorial · 40 Under 40 · 2024",
-      en: "Editorial · 40 Under 40 · 2024",
-    },
-    src: "/portraits/02-duotone.jpeg",
-    isReal: true,
-  },
-  {
-    id: "risograph",
+    id: "03",
     number: "03",
     facet: "builder",
-    styleLabel: { es: "Risografía a dos tintas", en: "Two-ink risograph" },
-    facetLabel: { es: "Constructor", en: "Builder" },
+    styleLabel: { es: "Capacitacion tecnica", en: "Technical training" },
+    facetLabel: { es: "Docente", en: "Instructor" },
     caption: {
-      es: "Roadmap agéntico · Santiago · 2025",
-      en: "Agentic roadmap · Santiago · 2025",
+      es: "Sesion tecnica · 2022",
+      en: "Technical session · 2022",
     },
-    src: "/portraits/03-risograph.jpeg",
+    src: "/portraits/03.jpeg",
     isReal: true,
   },
   {
-    id: "blueprint",
+    id: "04",
     number: "04",
-    facet: "architect",
-    styleLabel: { es: "Cianotipo arquitectónico", en: "Cyanotype blueprint" },
-    facetLabel: { es: "Arquitecto", en: "Architect" },
+    facet: "speaker",
+    styleLabel: { es: "Panel de conferencia", en: "Conference panel" },
+    facetLabel: { es: "Panelista", en: "Panelist" },
     caption: {
-      es: "Arquitectura de agentes · 2025",
-      en: "Agent architecture · 2025",
+      es: "IKN Spain · Madrid · 2024",
+      en: "IKN Spain · Madrid · 2024",
     },
-    src: "/portraits/04-blueprint.jpeg",
+    src: "/portraits/04.jpeg",
     isReal: true,
   },
   {
-    id: "motion",
+    id: "05",
     number: "05",
-    facet: "motion",
-    styleLabel: { es: "Larga exposición", en: "Long exposure" },
-    facetLabel: { es: "En movimiento", en: "In motion" },
+    facet: "voice",
+    styleLabel: { es: "Encuentro institucional", en: "Institutional meeting" },
+    facetLabel: { es: "Relaciones", en: "Stakeholders" },
     caption: {
-      es: "Keynote · UnoChapecó · 2023",
-      en: "Keynote · UnoChapecó · 2023",
+      es: "Reunion institucional · 2024",
+      en: "Institutional meeting · 2024",
     },
-    src: "/portraits/05-motion.jpeg",
+    src: "/portraits/05.jpeg",
     isReal: true,
   },
   {
-    id: "charcoal",
+    id: "06",
     number: "06",
-    facet: "voice",
-    styleLabel: { es: "Ilustración a carbón", en: "Charcoal illustration" },
-    facetLabel: { es: "Columnista", en: "Op-Ed voice" },
+    facet: "builder",
+    styleLabel: { es: "Documental corporativo", en: "Corporate documentary" },
+    facetLabel: { es: "Equipo", en: "Team" },
     caption: {
-      es: "Op-Ed · Bloomberg Línea · próximamente",
-      en: "Op-Ed · Bloomberg Línea · soon",
+      es: "Equipo Ricoh · LATAM · 2020",
+      en: "Ricoh team · LATAM · 2020",
     },
-    src: "/portraits/06-charcoal.jpeg",
+    src: "/portraits/06.jpeg",
     isReal: true,
   },
 ];
