@@ -22,7 +22,7 @@ Guía para publicar este sitio como **Web Service** en [Render](https://render.c
 |--------|--------|
 | **Type** | Web Service |
 | **Runtime** | Node |
-| **Build Command** | `npm ci && npm run build` |
+| **Build Command** | `npm ci --include=dev && npm run build` |
 | **Start Command** | `npm start` |
 | **Branch** | `main` |
 
@@ -77,6 +77,10 @@ Abrí `http://localhost:3000` y revisá `/historia`, `/charlas`, assets en `publ
 | `package.json` → `engines` | Versión de Node en build |
 
 ## Problemas frecuentes
+
+**`Cannot find module '@tailwindcss/postcss'` en Render**
+
+Render con `NODE_ENV=production` no instala `devDependencies` por defecto. Tailwind y TypeScript se necesitan en el build, por eso están en `dependencies` y el build usa `npm ci --include=dev`. Si cambiás el build command en el dashboard, mantené `--include=dev`.
 
 **Build falla por memoria (plan Free)**  
 Subí a Starter o reducí tamaño de JPEGs (calidad 85, ancho máx. 1600px).
