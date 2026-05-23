@@ -80,7 +80,7 @@ Abrí `http://localhost:3000` y revisá `/historia`, `/charlas`, assets en `publ
 
 **`Cannot find module '@tailwindcss/postcss'` en Render**
 
-Render con `NODE_ENV=production` no instala `devDependencies` por defecto. Tailwind y TypeScript se necesitan en el build, por eso están en `dependencies` y el build usa `npm ci --include=dev`. Si cambiás el build command en el dashboard, mantené `--include=dev`.
+Render con `NODE_ENV=production` no instala `devDependencies` por defecto. Tailwind, TypeScript y `@types/*` están en `dependencies` (necesarios en build). El build command usa `npm ci --include=dev` por si agregás más devDeps locales. Si cambiás el build command en el dashboard, mantené `--include=dev`.
 
 **Build falla por memoria (plan Free)**  
 Subí a Starter o reducí tamaño de JPEGs (calidad 85, ancho máx. 1600px).
