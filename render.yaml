@@ -1,0 +1,18 @@
+# Render Blueprint — Fernando Urbano personal site (Next.js 16)
+# Docs: https://render.com/docs/deploy-nextjs-app
+
+services:
+  - type: web
+    name: fernando-urbano
+    runtime: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20.18.0
