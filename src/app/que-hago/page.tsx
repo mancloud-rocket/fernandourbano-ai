@@ -4,7 +4,7 @@ import { ServicesPage } from "@/components/pages/Services";
 export const metadata: Metadata = {
   title: "Qué hago",
   description:
-    "Producto agéntico, asesoría a C-level y formación in-company. Tres formas concretas de trabajar conmigo.",
+    "Producto agéntico, automatización e IA aplicada al negocio. Las áreas en las que trabajo y sobre las que escribo.",
 };
 
 export default function Page() {

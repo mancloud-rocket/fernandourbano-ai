@@ -145,6 +145,55 @@
   font-variation-settings: "opsz" 60;
 }
 
+/* Long-form article body — inline emphasis only; block rhythm/size set per block */
+.prose-editorial strong {
+  color: var(--color-cream);
+  font-weight: 600;
+}
+.prose-editorial em {
+  font-style: italic;
+  color: var(--color-cream);
+}
+.prose-editorial a {
+  color: var(--color-teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Persistent background aura — subtle drifting brand glows behind content */
+.aura {
+  position: absolute;
+  width: 62vw;
+  height: 62vw;
+  border-radius: 9999px;
+  filter: blur(130px);
+  opacity: 0.08;
+  will-change: transform;
+}
+.aura-teal {
+  top: -14vw;
+  left: -8vw;
+  background: radial-gradient(circle, var(--color-teal), transparent 70%);
+  animation: aura-drift-a 34s ease-in-out infinite;
+}
+.aura-amber {
+  right: -10vw;
+  bottom: -16vw;
+  background: radial-gradient(circle, #e89b2a, transparent 70%);
+  animation: aura-drift-b 42s ease-in-out infinite;
+}
+@keyframes aura-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(6vw, 4vw, 0); }
+}
+@keyframes aura-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-5vw, -6vw, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aura { animation: none !important; }
+}
+
 /* Editorial pulse for "live now" indicator */
 @keyframes editorial-pulse {
   0%,

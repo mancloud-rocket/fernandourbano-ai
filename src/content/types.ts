@@ -100,7 +100,18 @@ export type IdeaTeaser = {
   blurb: string;
   readingTime: string;
   tags: string[];
+  /** URL segment under /ideas. Same slug for ES and EN. */
+  slug: string;
 };
+
+/** Structured long-form article body block. Rendered by the Article page. */
+export type ArticleBlock =
+  | { type: "lead"; text: string }
+  | { type: "p"; text: string }
+  | { type: "h2"; text: string }
+  | { type: "quote"; text: string; cite?: string }
+  | { type: "list"; items: string[] }
+  | { type: "num"; items: string[] };
 
 export type ContactIntent = {
   id: string;

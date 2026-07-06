@@ -27,7 +27,7 @@ export function IdeasPage({ locale }: Props) {
         <Container width="wide" className="py-20 md:py-28">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-8">
-              <VolumeIndex pillars={c.ideas.pillars} comingSoon={c.ui.comingSoon} />
+              <VolumeIndex pillars={c.ideas.pillars} readLabel={c.ctas.readMore} locale={locale} />
             </div>
             <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
               <CurrentlyWriting

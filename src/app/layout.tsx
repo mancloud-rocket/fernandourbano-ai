@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { BackdropAura } from "@/components/BackdropAura";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -27,7 +28,7 @@ const SITE_URL = "https://fernandourbano.ai";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Fernando Urbano — IA sin bluff",
+    default: "Fernando Urbano - IA sin bluff",
     template: "%s · Fernando Urbano",
   },
   description:
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_ES",
     siteName: "Fernando Urbano",
-    title: "Fernando Urbano — IA sin bluff",
+    title: "Fernando Urbano - IA sin bluff",
     description:
       "Constructor de producto agéntico y voz LATAM-Iberia en IA aplicada al negocio.",
     url: SITE_URL,
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fernando Urbano — IA sin bluff",
+    title: "Fernando Urbano - IA sin bluff",
     description:
       "Constructor de producto agéntico y voz LATAM-Iberia en IA aplicada al negocio.",
   },
@@ -86,7 +87,10 @@ export default async function RootLayout({
       data-scroll-behavior="smooth"
       className={`${fraunces.variable} ${geist.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-ink text-cream">{children}</body>
+      <body className="min-h-full bg-ink text-cream">
+        <BackdropAura />
+        {children}
+      </body>
     </html>
   );
 }

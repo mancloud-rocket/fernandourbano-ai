@@ -40,7 +40,8 @@ export function PressPage({ locale }: Props) {
             <div className="md:col-span-6 md:col-start-7">
               <p className="text-body text-cream-dim">{c.press.pressKitBlurb}</p>
               <a
-                href="mailto:hola@fernandourbano.ai?subject=Press%20kit"
+                href="/press/press-kit.pdf"
+                download
                 className="group mt-8 inline-flex items-baseline gap-2 border-b border-teal pb-1 font-display text-[20px] text-cream hover:text-teal"
               >
                 {c.ctas.pressKit}

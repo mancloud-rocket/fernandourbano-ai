@@ -1,13 +1,19 @@
+import Link from "next/link";
 import type { IdeaTeaser } from "@/content/types";
+import type { Locale } from "@/lib/locale";
+import { path } from "@/lib/locale";
 
-type Props = { pillars: IdeaTeaser[]; comingSoon: string };
+type Props = { pillars: IdeaTeaser[]; readLabel: string; locale: Locale };
 
-export function VolumeIndex({ pillars, comingSoon }: Props) {
+export function VolumeIndex({ pillars, readLabel, locale }: Props) {
   return (
     <ul className="divide-y divide-stroke border-y border-stroke">
       {pillars.map((idea) => (
         <li key={idea.number}>
-          <article className="group grid gap-6 py-12 transition-colors hover:bg-teal-soft md:grid-cols-12 md:gap-10 md:py-16">
+          <Link
+            href={`${path(locale, "ideas")}/${idea.slug}`}
+            className="group grid gap-6 py-12 transition-colors hover:bg-teal-soft md:grid-cols-12 md:gap-10 md:py-16"
+          >
             <div className="md:col-span-2">
               <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-teal">
                 Vol {idea.volume}
@@ -43,10 +49,10 @@ export function VolumeIndex({ pillars, comingSoon }: Props) {
                 {idea.readingTime}
               </span>
               <span className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-cream-mute group-hover:text-teal">
-                {comingSoon} —&gt;
+                {readLabel} —&gt;
               </span>
             </div>
-          </article>
+          </Link>
         </li>
       ))}
     </ul>

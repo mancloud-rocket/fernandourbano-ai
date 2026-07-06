@@ -5,7 +5,6 @@ import { HeroManifestoArt } from "@/components/HeroManifestoArt";
 import { StatsStrip } from "@/components/StatsStrip";
 import { SectionIndex } from "@/components/SectionIndex";
 import { PullQuote } from "@/components/PullQuote";
-import { SpeakerPull } from "@/components/SpeakerPull";
 
 type Props = { locale: Locale };
 
@@ -18,7 +17,6 @@ export function HomePage({ locale }: Props) {
         <StatsStrip locale={locale} />
         <PullQuote locale={locale} />
         <SectionIndex locale={locale} />
-        <SpeakerPull locale={locale} />
       </main>
       <Footer locale={locale} currentSegment="" />
     </>

@@ -4,12 +4,13 @@ import { getContent } from "@/content";
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { PageShell } from "@/components/PageShell";
-import { BookingForm } from "@/components/contact/BookingForm";
 
 type Props = { locale: Locale };
 
 export function ContactPage({ locale }: Props) {
   const c = getContent(locale);
+  const primary = c.contact.methods[0];
+
   return (
     <PageShell locale={locale} segment="contacto">
       <header className="border-b border-stroke">
@@ -24,7 +25,15 @@ export function ContactPage({ locale }: Props) {
         <Container width="wide" className="py-20 md:py-28">
           <div className="grid gap-16 md:grid-cols-12">
             <div className="md:col-span-7">
-              <BookingForm contact={c.contact} ui={c.ui} />
+              <Link
+                href={primary.href}
+                className="group inline-flex items-baseline gap-3 border-b border-teal pb-2 font-display text-[clamp(28px,4vw,44px)] text-cream transition-colors hover:text-teal"
+              >
+                {primary.value}
+                <span aria-hidden className="text-[0.6em] transition-transform group-hover:translate-x-1">
+                  —&gt;
+                </span>
+              </Link>
             </div>
             <div className="md:col-span-4 md:col-start-9">
               <Eyebrow>Channels</Eyebrow>

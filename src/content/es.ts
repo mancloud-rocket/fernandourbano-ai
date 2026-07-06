@@ -3,9 +3,9 @@ import { storyChaptersEs } from "./story";
 
 export const es: SiteContent = {
   meta: {
-    title: "Fernando Urbano — IA sin bluff",
+    title: "Fernando Urbano - IA sin bluff",
     description:
-      "Global Head of Innovation en Rocketbot. Speaker en LATAM e Iberia. 200+ clientes asesorados. 40 Under 40 Innovators 2024.",
+      "Director de Innovación en Rocketbot. Escribo sobre IA aplicada al negocio en LATAM. 200+ clientes asesorados. 40 Under 40 Innovators 2024.",
   },
   nav: [
     { segment: "historia", label: "Historia", number: "01" },
@@ -61,20 +61,20 @@ export const es: SiteContent = {
       next: { city: "Santiago", country: "Chile", countryCode: "cl", when: "Jun 2026" },
     },
     intro:
-      "Soy Global Head of Innovation en Rocketbot. Lidero la evolución de producto agéntico, de IA aplicada y de eficiencia empresarial. He asesorado más de 200 clientes en siete países y fui seleccionado 40 Under 40 Innovators Global en 2024.",
+      "Soy Director de Innovación en Rocketbot. Lidero la evolución de producto agéntico, de IA aplicada y de eficiencia empresarial. He asesorado más de 200 clientes en siete países y fui seleccionado 40 Under 40 Innovators Global en 2024.",
     bioOneLine:
-      "Constructor de producto agéntico. Asesor de C-levels. Speaker en LATAM e Iberia.",
+      "Constructor de producto agéntico. Escribo sobre IA aplicada al negocio en LATAM.",
     nowStatus:
-      "Liderando el roadmap de agentes en Rocketbot. Asesorando bancos y retailers en LATAM. Preparando Agentic Tour 2026.",
+      "Liderando el roadmap de agentes en Rocketbot. Escribiendo, en este espacio, sobre lo que voy aprendiendo mientras construyo IA aplicada.",
     stats: [
       { value: "200+", label: "Clientes asesorados" },
       { value: "7", label: "Países con ponencias" },
-      { value: "3", label: "Premios globales 2016—18" },
+      { value: "3", label: "Premios globales 2016-18" },
       { value: "40<40", label: "Innovators 2024" },
     ],
     sections: [
       { number: "01", title: "Historia", blurb: "De Ciudad de la Costa al mundo. 11 capítulos.", href: "/historia" },
-      { number: "02", title: "Qué hago", blurb: "Speaker, asesor y voz en medios.", href: "/que-hago" },
+      { number: "02", title: "Qué hago", blurb: "Las áreas en las que trabajo y en las que más me metí.", href: "/que-hago" },
       { number: "03", title: "Charlas", blurb: "Keynotes, Agentic Tour y RPA Day.", href: "/charlas" },
       { number: "04", title: "Ideas", blurb: "Ensayos sin filtros sobre IA y negocio.", href: "/ideas" },
       { number: "05", title: "Prensa", blurb: "Premios y menciones en medios.", href: "/prensa" },
@@ -107,33 +107,33 @@ export const es: SiteContent = {
     footerCta: { label: "Qué hago hoy", href: "/que-hago" },
   },
   services: {
-    eyebrow: "Oficio",
-    title: "En escena. En consultoría. En medios.",
+    eyebrow: "En qué trabajo",
+    title: "Producto agéntico, automatización e IA aplicada.",
     intro:
-      "Referente en RPA, hiperautomatización, sistemas de IA, LLMs y agentes de negocio en LATAM e Iberia. Hablo de lo que construyo.",
+      "Trabajo en RPA, hiperautomatización, sistemas de IA, LLMs y agentes de negocio en LATAM e Iberia. Escribo de lo que construyo, no de lo que leo.",
     lanes: [
       {
         number: "01",
-        title: "Speaker",
+        title: "Producto agéntico",
         blurb:
-          "Keynotes, paneles y executive breakfasts en conferencias, corporativos y universidades. 7 países, formatos de 30 minutos a 3 días.",
-        engagements: ["Keynote", "Panel", "Executive breakfast", "Charla magistral"],
-        stat: { value: "7", label: "Países en escenarios" },
+          "Lidero el roadmap de agentes de negocio en Rocketbot: diseño, arquitectura y puesta en producción de sistemas que hacen trabajo real.",
+        engagements: ["Agentes de negocio", "Multi-agente", "IA aplicada", "Roadmap de producto"],
+        stat: { value: "2", label: "Años liderando agentes" },
       },
       {
         number: "02",
-        title: "Asesor",
+        title: "Automatización",
         blurb:
-          "Acompaño a CEOs, COOs y CDOs a separar lo que la IA va a hacer de lo que es humo. Sesiones cortas, decisiones grandes.",
-        engagements: ["Board advisor", "Comité de innovación", "Due diligence técnico"],
-        stat: { value: "200+", label: "Clientes asesorados" },
+          "Más de una década en RPA e hiperautomatización: 80+ procesos automatizados en 12 países. De bots a agentes, con criterio de negocio.",
+        engagements: ["RPA", "Hiperautomatización", "Orquestación", "Procesos"],
+        stat: { value: "80+", label: "Procesos automatizados" },
       },
       {
         number: "03",
-        title: "Voz en medios",
+        title: "Criterio anti-bluff",
         blurb:
-          "Entrevistas, columnas, podcasts, TV y radio. Anti-bluff aplicado: hechos, casos y números — no humo de LinkedIn.",
-        engagements: ["Entrevista", "Columna de opinión", "Podcast", "TV / Radio"],
+          "Separo lo que la IA va a hacer de lo que es humo. Hechos, casos y números; no promesas de LinkedIn. Es lo que trato de dejar por escrito acá.",
+        engagements: ["Estrategia", "LLMs en producción", "Costo y latencia", "Riesgo"],
         stat: { value: "40<40", label: "Innovators Global 2024" },
       },
     ],
@@ -144,18 +144,18 @@ export const es: SiteContent = {
       { id: "hyper", name: "Hiperautomatización", level: 5, years: 6, caption: "Practia / Publicis Sapient, banca y retail" },
       { id: "ai-sys", name: "Sistemas de IA", level: 4, years: 4, caption: "Arquitectura y despliegue en producción" },
       { id: "llm", name: "LLMs", level: 4, years: 3, caption: "Selección, costo, latencia y riesgo" },
-      { id: "agents", name: "Agentes de negocio", level: 5, years: 2, caption: "Head of Agentic AI, Rocketbot" },
+      { id: "agents", name: "Agentes de negocio", level: 5, years: 2, caption: "Producto agéntico, Rocketbot" },
       { id: "multi", name: "Multi-agent systems", level: 4, years: 2, caption: "Roadmap agéntico global" },
     ],
-    useCasesTitle: "Para qué me llaman",
+    useCasesTitle: "Temas que me obsesionan",
     useCases: [
-      { number: "01", title: "Diagnóstico de portafolio de IA", blurb: "En 2 horas: qué cancelar, qué acelerar, qué medir." },
-      { number: "02", title: "Keynote para juntas directivas", blurb: "IA aplicada sin humo. Casos reales de LATAM." },
-      { number: "03", title: "Workshop para equipos técnicos", blurb: "Agentes que entran a producción en 8 semanas." },
-      { number: "04", title: "Entrevista o columna de opinión", blurb: "Takes filosos con datos detrás." },
+      { number: "01", title: "Portafolios de IA que se caen", blurb: "Qué cancelar, qué acelerar y qué medir de verdad." },
+      { number: "02", title: "IA aplicada sin humo", blurb: "Lo que sí funciona en LATAM, con casos reales." },
+      { number: "03", title: "Agentes en producción", blurb: "De piloto eterno a producción en 8 semanas." },
+      { number: "04", title: "LLMs con criterio", blurb: "Costo, latencia y riesgo antes que hype." },
     ],
     ctaTalks: "Ver charlas",
-    ctaContact: "Escribime",
+    ctaContact: "Leer las ideas",
   },
   speaking: {
     eyebrow: "On Tour",
@@ -345,6 +345,7 @@ export const es: SiteContent = {
           "Con ejemplos reales de los últimos 18 meses en banca, retail y telcos.",
         readingTime: "11 min",
         tags: ["LATAM", "Estrategia", "Capital"],
+        slug: "ia-en-latam-y-lo-que-es-humo",
       },
       {
         number: "02",
@@ -356,6 +357,7 @@ export const es: SiteContent = {
         blurb: "Casi siempre es el proceso, el dato sucio y la falta de owner.",
         readingTime: "9 min",
         tags: ["Producción", "RPA", "Proceso"],
+        slug: "por-que-mueren-los-pilotos-de-ia",
       },
       {
         number: "03",
@@ -367,6 +369,7 @@ export const es: SiteContent = {
         blurb: "Cómo armar un agente de negocio que se pague solo.",
         readingTime: "14 min",
         tags: ["Agentes", "Arquitectura", "MVP"],
+        slug: "agentes-que-si-venden-arquitectura-minima-viable",
       },
     ],
   },
@@ -407,7 +410,7 @@ export const es: SiteContent = {
     ],
     mentionsTitle: "Menciones en medios y redes",
     mentionsIntro:
-      "Videos y apariciones en cuentas oficiales de marcas referentes en automatización, 2025—2026.",
+      "Videos y apariciones en cuentas oficiales de marcas referentes en automatización, 2025-2026.",
     mentions: [
       {
         year: "2026",
@@ -439,13 +442,13 @@ export const es: SiteContent = {
       },
     ],
     pressKitBlurb:
-      "Bio corta y larga, tres retratos en alta resolución, lista de temas y logos de eventos. Se entrega bajo solicitud por email.",
+      "Bio corta, media y larga en español e inglés, retratos editoriales, lista de temas, formatos y credenciales. Descarga directa en PDF.",
   },
   contact: {
     eyebrow: "Contacto",
-    title: "Si tiene sentido, te respondo en 48 horas.",
+    title: "¿Tenés algo para contarme? Escribime.",
     intro:
-      "Elegí el tipo de consulta. Cuanto más específico, más rápido respondo.",
+      "Leo todo. Si querés comentar una idea, discutir algo que escribí o simplemente saludar, el correo es el mejor canal.",
     intents: [
       {
         id: "keynote",
@@ -494,12 +497,12 @@ export const es: SiteContent = {
     sloganLine2: "Negocios con velocidad.",
     rights: "Todos los derechos reservados",
     ticker: [
-      "Global Head of Innovation · Rocketbot",
+      "Director de Innovación · Rocketbot",
       "40 Under 40 Innovators Global 2024",
       "200+ clientes asesorados",
-      "Agentic Tour 2026 · 7 países",
-      "Premios globales 2016 — 2017 — 2018",
-      "Construyo IA. No la vendo bonita.",
+      "RPA e hiperautomatización desde 2016",
+      "Premios globales 2016 · 2017 · 2018",
+      "Escribo sobre IA aplicada al negocio.",
     ],
   },
 };

@@ -4,7 +4,7 @@ import { ContactPage } from "@/components/pages/Contact";
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Para conferencias, paneles, asesoría, formación o medios. Respondo en 48 horas si tiene sentido.",
+    "Escribime por correo o LinkedIn. Leo todo: ideas, comentarios y saludos.",
 };
 
 export default function Page() {

@@ -4,7 +4,7 @@ import { ContactPage } from "@/components/pages/Contact";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "For keynotes, panels, advisory, training or media. I reply within 48 hours if it makes sense.",
+    "Write me by email or LinkedIn. I read everything: ideas, comments and hellos.",
   alternates: { canonical: "/en/contacto", languages: { es: "/contacto", en: "/en/contacto" } },
 };
 

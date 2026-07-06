@@ -6,6 +6,7 @@ import { Container } from "./Container";
 import { LocaleSwitch } from "./LocaleSwitch";
 import { Logo } from "./Logo";
 import { NavMobileMenu } from "./NavMobileMenu";
+import { ScrollProgress } from "./ScrollProgress";
 
 type Props = {
   locale: Locale;
@@ -17,6 +18,8 @@ export function Nav({ locale, currentSegment = "" }: Props) {
   const c = getContent(locale);
 
   return (
+    <>
+    <ScrollProgress />
     <header className="sticky top-0 z-50 border-b border-stroke bg-ink/85 backdrop-blur-md">
       <Container width="wide" className="flex items-center justify-between gap-4 py-4 md:gap-6 md:py-5">
         <Link
@@ -61,5 +64,6 @@ export function Nav({ locale, currentSegment = "" }: Props) {
         </div>
       </Container>
     </header>
+    </>
   );
 }

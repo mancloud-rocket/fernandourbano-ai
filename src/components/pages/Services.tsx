@@ -43,7 +43,7 @@ export function ServicesPage({ locale }: Props) {
               </span>
             </Link>
             <Link
-              href={path(locale, "contacto")}
+              href={path(locale, "ideas")}
               className="font-mono text-[11px] uppercase tracking-[0.22em] text-cream-mute hover:text-cream"
             >
               {c.services.ctaContact}
