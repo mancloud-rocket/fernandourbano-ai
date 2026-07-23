@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: "Fernando Urbano",
     title: content.meta.title,
     description: content.meta.description,
-    url: "https://fernandourbano.ai/en",
+    url: "/en",
   },
 };
 

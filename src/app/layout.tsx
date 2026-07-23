@@ -4,6 +4,7 @@ import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { BackdropAura } from "@/components/BackdropAura";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -24,8 +25,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
 });
-
-const SITE_URL = "https://fernandourbano.ai";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -2,8 +2,7 @@ import type { MetadataRoute } from "next";
 import { getContent } from "@/content";
 import { hasArticleBody } from "@/content/articles";
 import { POST_SLUGS } from "@/content/posts";
-
-const SITE_URL = "https://fernandourbano.ai";
+import { SITE_URL } from "@/lib/site";
 
 const ROUTES = [
   "",
