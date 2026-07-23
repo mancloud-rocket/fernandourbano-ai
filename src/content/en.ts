@@ -12,8 +12,9 @@ export const en: SiteContent = {
     { segment: "que-hago", label: "What I do", number: "02" },
     { segment: "charlas", label: "Talks", number: "03" },
     { segment: "ideas", label: "Ideas", number: "04" },
-    { segment: "prensa", label: "Press", number: "05" },
-    { segment: "contacto", label: "Contact", number: "06" },
+    { segment: "posts", label: "Posts", number: "05" },
+    { segment: "prensa", label: "Press", number: "06" },
+    { segment: "contacto", label: "Contact", number: "07" },
   ],
   ctas: {
     speakerSubtle: "For keynotes, panels and media",
@@ -77,7 +78,8 @@ export const en: SiteContent = {
       { number: "02", title: "What I do", blurb: "The areas I work in and know deepest.", href: "/en/que-hago" },
       { number: "03", title: "Talks", blurb: "Keynotes, Agentic Tour and RPA Day.", href: "/en/charlas" },
       { number: "04", title: "Ideas", blurb: "Unfiltered essays on AI and business.", href: "/en/ideas" },
-      { number: "05", title: "Press", blurb: "Awards and media mentions.", href: "/en/prensa" },
+      { number: "05", title: "Posts", blurb: "Short animated ideas, made to share.", href: "/en/posts" },
+      { number: "06", title: "Press", blurb: "Awards and media mentions.", href: "/en/prensa" },
     ],
     quote: {
       text: "Eighty percent of the AI pilots I see die because of bad strategy. Not bad technology.",

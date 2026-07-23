@@ -15,7 +15,7 @@ export function ContactPage({ locale }: Props) {
     <PageShell locale={locale} segment="contacto">
       <header className="border-b border-stroke">
         <Container width="wide" className="py-20 md:py-28">
-          <Eyebrow number="06">{c.contact.eyebrow}</Eyebrow>
+          <Eyebrow number="07">{c.contact.eyebrow}</Eyebrow>
           <h1 className="mt-6 display-xl text-cream">{c.contact.title}</h1>
           <p className="mt-8 max-w-[60ch] text-lead text-cream-dim">{c.contact.intro}</p>
         </Container>

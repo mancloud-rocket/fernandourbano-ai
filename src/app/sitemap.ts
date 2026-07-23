@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getContent } from "@/content";
 import { hasArticleBody } from "@/content/articles";
+import { POST_SLUGS } from "@/content/posts";
 
 const SITE_URL = "https://fernandourbano.ai";
 
@@ -10,6 +11,7 @@ const ROUTES = [
   "que-hago",
   "charlas",
   "ideas",
+  "posts",
   "prensa",
   "contacto",
 ] as const;
@@ -22,7 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .ideas.pillars.filter((p) => hasArticleBody(p.slug))
     .map((p) => `ideas/${p.slug}`);
 
-  for (const route of [...ROUTES, ...articleSlugs]) {
+  const postSlugs = POST_SLUGS.map((slug) => `posts/${slug}`);
+
+  for (const route of [...ROUTES, ...articleSlugs, ...postSlugs]) {
     const path = route === "" ? "" : `/${route}`;
     entries.push({
       url: `${SITE_URL}${path}`,

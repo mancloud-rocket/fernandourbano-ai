@@ -12,8 +12,9 @@ export const es: SiteContent = {
     { segment: "que-hago", label: "Qué hago", number: "02" },
     { segment: "charlas", label: "Charlas", number: "03" },
     { segment: "ideas", label: "Ideas", number: "04" },
-    { segment: "prensa", label: "Prensa", number: "05" },
-    { segment: "contacto", label: "Contacto", number: "06" },
+    { segment: "posts", label: "Posts", number: "05" },
+    { segment: "prensa", label: "Prensa", number: "06" },
+    { segment: "contacto", label: "Contacto", number: "07" },
   ],
   ctas: {
     speakerSubtle: "Para conferencias, paneles y medios",
@@ -77,7 +78,8 @@ export const es: SiteContent = {
       { number: "02", title: "Qué hago", blurb: "Las áreas en las que trabajo y en las que más me metí.", href: "/que-hago" },
       { number: "03", title: "Charlas", blurb: "Keynotes, Agentic Tour y RPA Day.", href: "/charlas" },
       { number: "04", title: "Ideas", blurb: "Ensayos sin filtros sobre IA y negocio.", href: "/ideas" },
-      { number: "05", title: "Prensa", blurb: "Premios y menciones en medios.", href: "/prensa" },
+      { number: "05", title: "Posts", blurb: "Ideas cortas y animadas, para compartir.", href: "/posts" },
+      { number: "06", title: "Prensa", blurb: "Premios y menciones en medios.", href: "/prensa" },
     ],
     quote: {
       text: "El 80% de los pilotos de IA que veo morir, mueren por mala estrategia, no por mala tecnología.",

@@ -14,7 +14,7 @@ export function PressPage({ locale }: Props) {
     <PageShell locale={locale} segment="prensa">
       <header className="border-b border-stroke">
         <Container width="wide" className="py-20 md:py-28">
-          <Eyebrow number="05">{c.press.eyebrow}</Eyebrow>
+          <Eyebrow number="06">{c.press.eyebrow}</Eyebrow>
           <h1 className="mt-6 display-xl text-cream">{c.press.title}</h1>
           <p className="mt-8 max-w-[60ch] text-lead text-cream-dim">{c.press.intro}</p>
         </Container>

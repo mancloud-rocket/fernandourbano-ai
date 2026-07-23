@@ -13,7 +13,7 @@ export function SectionIndex({ locale }: Props) {
       <Container width="wide" className="py-24 md:py-32">
         <div className="grid gap-10 md:grid-cols-12">
           <header className="md:col-span-4">
-            <Eyebrow>Index · 01 — 05</Eyebrow>
+            <Eyebrow>Index · 01 - 06</Eyebrow>
             <h2 className="mt-5 display-lg text-cream">
               Recorré
               <br />
