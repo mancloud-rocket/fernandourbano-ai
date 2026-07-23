@@ -36,7 +36,7 @@ export function ContactPage({ locale }: Props) {
               </Link>
             </div>
             <div className="md:col-span-4 md:col-start-9">
-              <Eyebrow>Channels</Eyebrow>
+              <Eyebrow>{locale === "es" ? "Canales" : "Channels"}</Eyebrow>
               <ul className="mt-8 space-y-px overflow-hidden border border-stroke">
                 {c.contact.methods.map((m) => (
                   <li key={m.kind}>

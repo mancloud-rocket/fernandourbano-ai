@@ -32,9 +32,11 @@ export function PressPage({ locale }: Props) {
             <div className="md:col-span-5">
               <Eyebrow>Press kit</Eyebrow>
               <h2 className="mt-5 display-lg text-cream">
-                For producers
+                {locale === "es" ? "Para prensa" : "For producers"}
                 <br />
-                <em className="italic text-cream-dim">and editors.</em>
+                <em className="italic text-cream-dim">
+                  {locale === "es" ? "y medios." : "and editors."}
+                </em>
               </h2>
             </div>
             <div className="md:col-span-6 md:col-start-7">
