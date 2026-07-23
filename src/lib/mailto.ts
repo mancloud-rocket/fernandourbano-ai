@@ -20,7 +20,7 @@ const LIMITS = {
 
 export function buildBookingMailto(
   payload: BookingPayload,
-  to = "hola@fernandourbano.ai",
+  to = "fernando.urbano@rocketbot.com",
 ): string {
   const intentLabel = sanitizePlainText(payload.intentLabel, LIMITS.intentLabel);
   const name = sanitizePlainText(payload.name, LIMITS.name);

@@ -58,8 +58,8 @@ export const en: SiteContent = {
     trip: {
       nowLabel: "Now",
       nextLabel: "Next",
-      now: { city: "Montevideo", country: "Uruguay", countryCode: "uy" },
-      next: { city: "Santiago", country: "Chile", countryCode: "cl", when: "Jun 2026" },
+      now: { city: "Santiago", country: "Chile", countryCode: "cl" },
+      next: { city: "Lima", country: "Peru", countryCode: "pe", when: "Aug 2 · 1 week" },
     },
     intro:
       "I'm Director of Innovation at Rocketbot. I lead agentic product, applied AI and operational efficiency. I've advised 200+ clients across seven countries and was named 40 Under 40 Innovators Global in 2024.",
@@ -236,7 +236,7 @@ export const en: SiteContent = {
     },
     newsletter: {
       label: "One idea per week, no spam",
-      href: "mailto:hola@fernandourbano.ai?subject=Newsletter",
+      href: "mailto:fernando.urbano@rocketbot.com?subject=Newsletter",
     },
     pillars: [
       {
@@ -319,7 +319,7 @@ export const en: SiteContent = {
       deadlineLabel: "Reply deadline (optional)",
     },
     methods: [
-      { kind: "Email", label: "Direct email", value: "hola@fernandourbano.ai", href: "mailto:hola@fernandourbano.ai" },
+      { kind: "Email", label: "Direct email", value: "fernando.urbano@rocketbot.com", href: "mailto:fernando.urbano@rocketbot.com" },
       { kind: "LinkedIn", label: "LinkedIn", value: "/in/f-urcastro", href: "https://www.linkedin.com/in/f-urcastro/" },
     ],
   },
