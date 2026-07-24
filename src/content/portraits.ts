@@ -54,10 +54,10 @@ export const portraits: Portrait[] = [
     id: "03",
     number: "03",
     facet: "builder",
-    styleLabel: { es: "Capacitacion tecnica", en: "Technical training" },
+    styleLabel: { es: "Capacitación técnica", en: "Technical training" },
     facetLabel: { es: "Docente", en: "Instructor" },
     caption: {
-      es: "Sesion tecnica · 2022",
+      es: "Sesión técnica · 2022",
       en: "Technical session · 2022",
     },
     src: "/portraits/03.jpeg",
@@ -83,7 +83,7 @@ export const portraits: Portrait[] = [
     styleLabel: { es: "Encuentro institucional", en: "Institutional meeting" },
     facetLabel: { es: "Relaciones", en: "Stakeholders" },
     caption: {
-      es: "Reunion institucional · 2024",
+      es: "Reunión institucional · 2024",
       en: "Institutional meeting · 2024",
     },
     src: "/portraits/05.jpeg",

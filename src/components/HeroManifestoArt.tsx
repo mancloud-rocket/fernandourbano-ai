@@ -146,23 +146,32 @@ export function HeroManifestoArt({ locale }: Props) {
           >
             <PortraitFrame activeId={active.id} locale={locale} />
 
-            {/* Caption beneath portrait — magazine-style metadata */}
-            <div className="mt-5 flex items-baseline justify-between gap-4 border-t border-stroke pt-4">
-              <div className="flex flex-col">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-teal">
-                  Plate {active.number}
-                </span>
+            {/* Caption beneath the portrait. The line is locked to a single
+                row and a fixed height: captions differ in length, so letting
+                it wrap made every rotation shove the rest of the page down.
+                Only the location metadata is shown; the kind of shot is
+                already stated by the badge over the photo. */}
+            <div className="mt-5 flex items-start justify-between gap-4 border-t border-stroke pt-4">
+              {/* Plate number and caption animate as one unit. Animating only
+                  the caption left the number already switched next to the
+                  previous photo's caption during the transition. */}
+              <div className="relative h-[34px] min-w-0 flex-1">
                 <AnimatePresence mode="wait">
-                  <motion.span
+                  <motion.div
                     key={`cap-${active.id}`}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.4, ease: EDITORIAL_EASE }}
-                    className="mt-1 font-mono text-[11px] uppercase tracking-[0.22em] text-cream-dim"
+                    className="absolute inset-0"
                   >
-                    {active.styleLabel[locale]} · {active.caption[locale]}
-                  </motion.span>
+                    <span className="block font-mono text-[10px] uppercase leading-[14px] tracking-[0.22em] text-teal">
+                      Plate {active.number}
+                    </span>
+                    <span className="mt-1 block truncate font-mono text-[11px] uppercase leading-[16px] tracking-[0.22em] text-cream-dim">
+                      {active.caption[locale]}
+                    </span>
+                  </motion.div>
                 </AnimatePresence>
               </div>
               <span
@@ -184,7 +193,7 @@ export function HeroManifestoArt({ locale }: Props) {
                     <button
                       type="button"
                       onClick={() => selectPortrait(i)}
-                      aria-label={`${p.facetLabel[locale]} — ${p.styleLabel[locale]}`}
+                      aria-label={`${p.facetLabel[locale]}: ${p.styleLabel[locale]}`}
                       aria-pressed={isActive}
                       className={clsx(
                         "group relative block w-full overflow-hidden border transition-all",
@@ -273,7 +282,7 @@ function PortraitFrame({ activeId, locale }: { activeId: string; locale: Locale 
               {/* Ken Burns: slow inner zoom while visible */}
               <motion.img
                 src={p.src}
-                alt={`Fernando Urbano — ${p.styleLabel[locale]}`}
+                alt={`Fernando Urbano, ${p.styleLabel[locale]}`}
                 initial={{ scale: 1 }}
                 animate={{ scale: 1.06 }}
                 transition={{
