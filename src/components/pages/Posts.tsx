@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { Locale } from "@/lib/locale";
 import { path } from "@/lib/locale";
 import { getPosts } from "@/content/posts";
-import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { PageShell } from "@/components/PageShell";
+import { Section } from "@/components/Section";
 
 const T = {
   es: {
@@ -37,23 +37,25 @@ export function PostsPage({ locale }: { locale: Locale }) {
 
   return (
     <PageShell locale={locale} segment="posts">
-      <header className="border-b border-stroke">
-        <Container width="wide" className="py-20 md:py-28">
-          <Eyebrow number="05">{t.eyebrow}</Eyebrow>
-          <h1 className="mt-6 display-xl text-cream">{t.title}</h1>
-          <p className="mt-8 max-w-[60ch] text-lead text-cream-dim">{t.intro}</p>
-        </Container>
-      </header>
+      <Section as="header" tone="base" space="lg">
+        <Eyebrow number="05">{t.eyebrow}</Eyebrow>
+        <h1 className="mt-6 display-xl text-cream">{t.title}</h1>
+        <p className="mt-8 max-w-[60ch] text-lead text-cream-dim">{t.intro}</p>
+      </Section>
 
-      <section>
-        <Container width="wide" className="py-6 md:py-10">
-          <ul className="divide-y divide-stroke border-b border-stroke">
-            {posts.map((p) => (
-              <li key={p.slug}>
+      <Section tone="plane" space="md">
+        <ul className="divide-y divide-stroke border-y border-stroke">
+          {posts.map((p) => (
+            <li key={p.slug}>
                 <Link
                   href={`${path(locale, "posts")}/${p.slug}`}
-                  className="group grid gap-4 py-10 transition-colors hover:bg-teal-soft md:grid-cols-12 md:gap-8 md:py-12"
+                  className="group relative grid gap-4 py-9 pl-6 pr-2 transition-colors duration-300 hover:bg-teal-soft md:grid-cols-12 md:gap-8 md:py-11"
                 >
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-0 h-full w-[2px] origin-top scale-y-0 bg-teal transition-transform duration-500 ease-editorial group-hover:scale-y-100 group-focus-visible:scale-y-100"
+                  />
+
                   <div className="md:col-span-3">
                     <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-teal">
                       {p.kicker}
@@ -62,8 +64,9 @@ export function PostsPage({ locale }: { locale: Locale }) {
                       {fmt(p.date, locale)}
                     </span>
                   </div>
+
                   <div className="md:col-span-9">
-                    <h2 className="display-md text-cream transition-transform duration-500 group-hover:translate-x-2">
+                    <h2 className="display-md text-cream transition-transform duration-500 ease-editorial group-hover:translate-x-1.5">
                       {p.title}
                     </h2>
                     <p className="mt-3 font-display text-[18px] italic text-cream-dim">
@@ -71,11 +74,10 @@ export function PostsPage({ locale }: { locale: Locale }) {
                     </p>
                   </div>
                 </Link>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
+            </li>
+          ))}
+        </ul>
+      </Section>
     </PageShell>
   );
 }

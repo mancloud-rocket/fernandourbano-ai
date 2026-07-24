@@ -1,14 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 type Props = { children: ReactNode; delay?: number; className?: string };
 
-/** Fade-and-rise a block into view once, respecting reduced motion. */
+/** Fade-and-rise a block into view once. Skips entirely under reduced motion. */
 export function Reveal({ children, delay = 0, className }: Props) {
+  const reduced = useReducedMotion();
+
+  if (reduced) return <div className={className}>{children}</div>;
+
   return (
     <motion.div
       className={className}

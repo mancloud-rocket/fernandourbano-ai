@@ -18,7 +18,7 @@ export function Footer({ locale, currentSegment = "" }: Props) {
 
   return (
     <footer className="mt-20 border-t border-stroke bg-ink-deep">
-      <div className="overflow-hidden border-b border-stroke">
+      <div className="edge-fade-x overflow-hidden border-b border-stroke">
         <div className="marquee-track flex w-max gap-12 whitespace-nowrap py-3 font-mono text-[11px] uppercase tracking-[0.22em] text-cream-mute">
           {ticker.map((item, i) => (
             <span key={i} className="inline-flex items-center gap-12">

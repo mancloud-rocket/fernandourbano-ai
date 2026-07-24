@@ -9,7 +9,6 @@ import type { ArticleBlock } from "@/content/types";
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { PageShell } from "@/components/PageShell";
-import { Reveal } from "@/components/Reveal";
 
 type Props = { locale: Locale; slug: string };
 
@@ -120,11 +119,10 @@ export function ArticlePage({ locale, slug }: Props) {
 
       <article>
         <Container width="narrow" className="py-16 md:py-24">
+          {/* No scroll-reveal: the essay body is the page. */}
           <div className="prose-editorial">
             {body.map((block, i) => (
-              <Reveal key={i}>
-                <Block block={block} />
-              </Reveal>
+              <Block key={i} block={block} />
             ))}
           </div>
 

@@ -6,10 +6,14 @@
  * ========================================================= */
 
 @theme inline {
-  /* Surface */
+  /* Surface — planes, not lines, carry structure in dark UI */
   --color-ink: #0a0a0b;
   --color-ink-raise: #131316;
   --color-ink-deep: #050506;
+  /* Intermediate plane for section alternation. Tuned by eye against the live
+     page: below this step the boundary stops reading on an uncalibrated
+     screen, which was the original "everything floats" complaint. */
+  --color-ink-plane: #131317;
 
   /* Text */
   --color-cream: #f4ede2;
@@ -21,9 +25,9 @@
   --color-teal-soft: rgba(61, 237, 232, 0.14);
   --color-cyan: #0db8a8;
 
-  /* Stroke */
-  --color-stroke: rgba(244, 237, 226, 0.09);
-  --color-stroke-strong: rgba(244, 237, 226, 0.18);
+  /* Stroke — perceptible on an uncalibrated screen, still a whisper */
+  --color-stroke: rgba(244, 237, 226, 0.14);
+  --color-stroke-strong: rgba(244, 237, 226, 0.24);
 
   /* Fonts */
   --font-display: var(--font-fraunces);
@@ -143,6 +147,50 @@
   line-height: 1.15;
   letter-spacing: -0.01em;
   font-variation-settings: "opsz" 60;
+}
+
+/* Horizontal edge fade — for marquees, so text dissolves instead of being
+   chopped mid-word at the viewport edge. */
+.edge-fade-x {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 7%,
+    black 93%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 7%,
+    black 93%,
+    transparent 100%
+  );
+}
+
+/* Photographs are documentary and stay recognizable, but they get pulled into
+   the palette: slightly desaturated, with shadows leaning to the brand teal so
+   a saturated corporate blue does not fight the ink/cream/teal system. */
+.photo-graded {
+  position: relative;
+  isolation: isolate;
+}
+.photo-graded img {
+  filter: saturate(0.5) contrast(1.1) brightness(0.92);
+}
+.photo-graded::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 184, 168, 0.16) 0%,
+    rgba(10, 10, 11, 0.05) 45%,
+    rgba(10, 10, 11, 0.55) 100%
+  );
+  mix-blend-mode: multiply;
 }
 
 /* Long-form article body — inline emphasis only; block rhythm/size set per block */

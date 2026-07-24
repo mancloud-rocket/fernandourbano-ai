@@ -24,12 +24,16 @@ export function SectionIndex({ locale }: Props) {
           </header>
 
           <ul className="md:col-span-8">
-            {c.home.sections.map((section, i) => (
+            {c.home.sections.map((section) => (
               <li key={section.href} className="border-t border-stroke last:border-b">
                 <Link
                   href={section.href}
-                  className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-5 py-7 transition-colors hover:bg-teal-soft md:gap-10 md:py-9"
+                  className="group relative grid grid-cols-[auto_1fr_auto] items-baseline gap-5 py-7 pl-5 transition-colors hover:bg-teal-soft md:gap-10 md:py-9"
                 >
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-0 h-full w-[2px] origin-top scale-y-0 bg-teal transition-transform duration-500 ease-editorial group-hover:scale-y-100 group-focus-visible:scale-y-100"
+                  />
                   <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-cream-mute group-hover:text-teal">
                     {section.number}
                   </span>
@@ -41,11 +45,12 @@ export function SectionIndex({ locale }: Props) {
                       {section.blurb}
                     </p>
                   </div>
+                  {/* The number already leads the row; repeating it here was noise. */}
                   <span
                     aria-hidden
                     className="self-center font-mono text-cream-mute transition-all duration-500 group-hover:translate-x-1 group-hover:text-teal"
                   >
-                    {String(i + 1).padStart(2, "0")} —&gt;
+                    —&gt;
                   </span>
                 </Link>
               </li>

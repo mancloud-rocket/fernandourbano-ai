@@ -248,7 +248,7 @@ export function HeroManifestoArt({ locale }: Props) {
 
 function PortraitFrame({ activeId, locale }: { activeId: string; locale: Locale }) {
   return (
-    <div className="relative aspect-[3/4] w-full overflow-hidden border border-stroke-strong bg-ink-deep">
+    <div className="photo-graded relative aspect-[3/4] w-full overflow-hidden border border-stroke-strong bg-ink-deep">
       {/* teal frame indicator on the active corner */}
       <span
         aria-hidden
