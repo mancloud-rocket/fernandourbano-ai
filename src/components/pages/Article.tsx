@@ -9,6 +9,8 @@ import type { ArticleBlock } from "@/content/types";
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { PageShell } from "@/components/PageShell";
+import { CybersecurityScrollytelling } from "@/components/cybersecurity/CybersecurityScrollytelling";
+import { CYBERSECURITY_ESSAY_SLUG } from "@/content/cybersecurityEssay";
 
 type Props = { locale: Locale; slug: string };
 
@@ -78,6 +80,15 @@ function Block({ block }: { block: ArticleBlock }) {
 
 export function ArticlePage({ locale, slug }: Props) {
   const c = getContent(locale);
+  if (slug === CYBERSECURITY_ESSAY_SLUG) {
+    return (
+      <PageShell locale={locale} segment="ideas">
+        <div lang="es">
+          <CybersecurityScrollytelling />
+        </div>
+      </PageShell>
+    );
+  }
   const teaser = c.ideas.pillars.find((p) => p.slug === slug);
   const body = getArticleBody(locale, slug);
   if (!teaser || !body) notFound();

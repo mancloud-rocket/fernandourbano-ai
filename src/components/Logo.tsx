@@ -34,8 +34,8 @@ export function Logo({
       height={height}
       priority={priority}
       sizes={`${width}px`}
-      className={clsx("block h-auto w-auto select-none", className)}
-      style={{ height, width: "auto" }}
+      className={clsx("block select-none", className)}
+      style={{ height, width }}
     />
   );
 }

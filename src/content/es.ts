@@ -373,6 +373,18 @@ export const es: SiteContent = {
         tags: ["Agentes", "Arquitectura", "MVP"],
         slug: "agentes-que-si-venden-arquitectura-minima-viable",
       },
+      {
+        number: "04",
+        volume: "01",
+        issue: "04",
+        kicker: "Ciberseguridad",
+        title: "No conozco tu estrategia de ciberseguridad, pero sé que es mala",
+        lead: "Servidores propios, presupuestos que no alcanzan y la fantasía de resolver el riesgo prohibiendo herramientas.",
+        blurb: "Una historia visual sobre todo lo que queda pendiente después de decir por seguridad.",
+        readingTime: "12 min",
+        tags: ["Ciberseguridad", "Nube", "IA"],
+        slug: "tu-estrategia-de-ciberseguridad",
+      },
     ],
   },
   press: {

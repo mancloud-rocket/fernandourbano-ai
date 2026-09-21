@@ -275,6 +275,18 @@ export const en: SiteContent = {
         tags: ["Agents", "Architecture", "MVP"],
         slug: "agentes-que-si-venden-arquitectura-minima-viable",
       },
+      {
+        number: "04",
+        volume: "01",
+        issue: "04",
+        kicker: "Cybersecurity · Spanish",
+        title: "No conozco tu estrategia de ciberseguridad, pero sé que es mala",
+        lead: "An interactive visual essay about on-premise servers, limited budgets and security by prohibition.",
+        blurb: "This visual essay is currently available in Spanish.",
+        readingTime: "12 min",
+        tags: ["Cybersecurity", "Cloud", "AI"],
+        slug: "tu-estrategia-de-ciberseguridad",
+      },
     ],
   },
   press: {

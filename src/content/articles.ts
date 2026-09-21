@@ -1,5 +1,6 @@
 import type { ArticleBlock } from "./types";
 import type { Locale } from "@/lib/locale";
+import { CYBERSECURITY_ESSAY_SLUG } from "./cybersecurityEssay";
 
 /**
  * Long-form article bodies, keyed by the same slug used in the `ideas.pillars`
@@ -302,5 +303,5 @@ export function getArticleBody(locale: Locale, slug: string): ArticleBlock[] | n
 }
 
 export function hasArticleBody(slug: string): boolean {
-  return Boolean(es[slug] || en[slug]);
+  return slug === CYBERSECURITY_ESSAY_SLUG || Boolean(es[slug] || en[slug]);
 }
