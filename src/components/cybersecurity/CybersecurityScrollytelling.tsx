@@ -12,7 +12,7 @@ import {
   type CyberBeat,
   type CyberChapter,
 } from "@/content/cybersecurityEssay";
-import { CyberStage } from "./CyberStage";
+import { CyberHero, CyberStage } from "./CyberStage";
 import styles from "./CybersecurityScrollytelling.module.css";
 
 if (typeof window !== "undefined") {
@@ -227,34 +227,7 @@ export function CybersecurityScrollytelling() {
             transition={{ duration: 0.9, delay: 0.34, ease }}
             aria-hidden="true"
           >
-            <svg viewBox="0 0 620 650" role="presentation">
-              <path className={styles.heroPerimeter} d="M61 103H559V555H61Z" />
-              <path className={styles.heroFloor} d="M61 438H559M171 438V555M450 438V555" />
-              <rect x="203" y="330" width="255" height="96" className={styles.heroDesk} />
-              <rect x="278" y="202" width="151" height="102" rx="4" className={styles.heroMonitor} />
-              <rect x="292" y="216" width="123" height="74" className={styles.heroScreen} />
-              <path className={styles.heroLine} d="M353 304V332M322 332H384" />
-              <rect x="103" y="178" width="90" height="211" rx="3" className={styles.heroRack} />
-              {[0, 1, 2, 3].map((i) => (
-                <g key={i} transform={`translate(115 ${198 + i * 44})`}>
-                  <rect width="66" height="31" rx="2" className={styles.heroRackUnit} />
-                  <circle cx="53" cy="16" r="3" className={styles.heroLed} />
-                </g>
-              ))}
-              <g transform="translate(330 351) rotate(2)">
-                <rect width="105" height="68" className={styles.heroReport} />
-                <text x="12" y="22">INFORME</text>
-                <text x="12" y="48">MIÉRCOLES</text>
-              </g>
-              <motion.path
-                className={styles.heroSignal}
-                d="M193 242C236 151 363 126 432 192"
-                initial={{ pathLength: calm ? 1 : 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 1.1, delay: 1.0, ease }}
-              />
-              <circle cx="432" cy="192" r="7" className={styles.heroLed} />
-            </svg>
+            <CyberHero calm={calm} />
           </motion.div>
         </div>
       </header>

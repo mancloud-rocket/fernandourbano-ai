@@ -1,665 +1,188 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { CyberChapter } from "@/content/cybersecurityEssay";
 import styles from "./CybersecurityScrollytelling.module.css";
 
-type Props = {
-  visual: CyberChapter["visual"];
-  activeBeat: string;
-  calm: boolean;
-};
-
+type Props = { visual: CyberChapter["visual"]; activeBeat: string; calm: boolean };
 const ease = [0.22, 1, 0.36, 1] as const;
 
-function Present({
-  show,
-  children,
-  x = 0,
-  y = 18,
-  delay = 0,
-}: {
-  show: boolean;
-  children: React.ReactNode;
-  x?: number;
-  y?: number;
-  delay?: number;
-}) {
-  return (
-    <motion.g
-      initial={{ opacity: show ? 1 : 0, x: show ? 0 : x, y: show ? 0 : y }}
-      animate={{ opacity: show ? 1 : 0, x: show ? 0 : x, y: show ? 0 : y }}
-      transition={{ duration: 0.48, ease, delay: show ? delay : 0 }}
-      style={{ pointerEvents: show ? "auto" : "none" }}
-    >
-      {children}
-    </motion.g>
-  );
+function Reveal({ show, children, x = 0, y = 12, delay = 0 }: { show: boolean; children: ReactNode; x?: number; y?: number; delay?: number }) {
+  return <motion.g initial={false} animate={{ opacity: show ? 1 : 0, x: show ? 0 : x, y: show ? 0 : y }} transition={{ duration: 0.62, ease, delay: show ? delay : 0 }}>{children}</motion.g>;
 }
 
-function SvgFrame({ children, title }: { children: React.ReactNode; title: string }) {
+function ArtFrame({ scene, title, chapter, children }: { scene: string; title: string; chapter: string; children: ReactNode }) {
+  const grid = `${scene}-grid`, grain = `${scene}-grain`, vignette = `${scene}-vignette`, shadow = `${scene}-shadow`;
   return (
-    <svg
-      className={styles.stageSvg}
-      viewBox="0 0 760 600"
-      role="img"
-      aria-label={title}
-      preserveAspectRatio="xMidYMid meet"
-    >
+    <svg className={styles.stageSvg} viewBox="0 0 760 600" role="img" aria-label={title} preserveAspectRatio="xMidYMid meet">
       <defs>
-        <pattern id="dotGrid" width="18" height="18" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="1" fill="currentColor" opacity="0.14" />
-        </pattern>
-        <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="8" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-        </filter>
+        <pattern id={grid} width="12" height="12" patternUnits="userSpaceOnUse"><path d="M12 0H0V12" className={styles.microGrid} /></pattern>
+        <radialGradient id={vignette} cx="50%" cy="42%" r="72%"><stop offset=".45" stopColor="#15161a" stopOpacity="0" /><stop offset="1" stopColor="#020305" stopOpacity=".86" /></radialGradient>
+        <filter id={grain} x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="2" seed="7" result="noise" /><feColorMatrix in="noise" type="saturate" values="0" result="mono" /><feComponentTransfer in="mono"><feFuncA type="table" tableValues="0 .065" /></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light" /></filter>
+        <filter id={shadow} x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="14" floodColor="#000" floodOpacity=".58" /></filter>
       </defs>
-      <rect width="760" height="600" rx="2" className={styles.svgBackdrop} />
-      <rect x="20" y="20" width="720" height="560" rx="2" fill="url(#dotGrid)" className={styles.svgGrid} />
-      {children}
+      <rect width="760" height="600" className={styles.plateGround} />
+      <rect x="18" y="18" width="724" height="564" fill={`url(#${grid})`} className={styles.plateGrid} />
+      <g className={styles.registration}><path d="M18 54V18h36M706 18h36v36M18 546v36h36M706 582h36v-36" /><path d="M370 18h20M380 8v20M370 582h20M380 572v20" /></g>
+      <text x="38" y="45" className={styles.plateCode}>FU · CYB/{chapter}</text><text x="722" y="45" textAnchor="end" className={styles.plateCode}>LÁMINA {chapter} · 01</text>
+      <g filter={`url(#${shadow})`}>{children}</g>
+      <rect x="18" y="18" width="724" height="564" fill={`url(#${vignette})`} className={styles.plateVignette} />
+      <rect x="18" y="18" width="724" height="564" filter={`url(#${grain})`} className={styles.plateTexture} />
+      <g className={styles.plateFooter}><path d="M38 555H722" /><text x="38" y="574">ENSAYO VISUAL · SEGURIDAD / CAPACIDAD / TRABAJO</text><text x="722" y="574" textAnchor="end">ESCALA VARIABLE</text></g>
     </svg>
   );
 }
 
+function ServerRack({ x, y, scale = 1, active = 5 }: { x: number; y: number; scale?: number; active?: number }) {
+  return <g transform={`translate(${x} ${y}) scale(${scale})`}>
+    <path d="M0 15 18 0h142l18 15v315l-18 18H18L0 330Z" className={styles.rackShell} /><path d="M18 22h142v298H18Z" className={styles.rackInner} /><path d="M8 18h10M160 18h10M8 328h10M160 328h10" className={styles.hardwareEdge} />
+    {Array.from({ length: 7 }, (_, i) => <g key={i} transform={`translate(27 ${34 + i * 39})`}><rect width="124" height="29" rx="1" className={styles.serverUnit} /><path d="M9 8h62M9 14h49M9 20h71" className={styles.ventLines} /><circle cx="104" cy="10" r="2.7" className={i <= active ? styles.statusLive : styles.statusIdle} /><circle cx="114" cy="10" r="2.7" className={i === active + 1 ? styles.statusAlert : styles.statusIdle} /><path d="M98 20h20" className={styles.driveHandle} /></g>)}
+    <path d="M164 44c26 48 26 196 0 246" className={styles.cableBundle} /><path d="M171 62c18 38 18 162 0 210" className={styles.cableFine} />
+  </g>;
+}
+
+function Report({ x, y, rotate = 0, large = false }: { x: number; y: number; rotate?: number; large?: boolean }) {
+  const w = large ? 184 : 132, h = large ? 124 : 88;
+  return <g transform={`translate(${x} ${y}) rotate(${rotate})`}><path d={`M0 0h${w - 22}l22 22v${h - 22}H0Z`} className={styles.reportPaper} /><path d={`M${w - 22} 0v22h22`} className={styles.paperFold} /><text x="14" y={large ? 29 : 23} className={styles.documentKicker}>INFORME / Q3</text><path d={`M14 ${large ? 42 : 34}H${w - 16}`} className={styles.documentRule} /><text x="14" y={large ? 76 : 57} className={styles.documentTitle}>MIÉRCOLES</text><path d={`M14 ${h - 20}h${w * .48}M${w * .65} ${h - 20}h${w * .2}`} className={styles.documentFine} /></g>;
+}
+
+function Person({ x, y, flip = false, accent = false }: { x: number; y: number; flip?: boolean; accent?: boolean }) {
+  return <g transform={`translate(${x} ${y}) scale(${flip ? -1 : 1} 1)`}><ellipse cx="0" cy="74" rx="33" ry="8" className={styles.personShadow} /><path d="M-25 39c1-24 10-39 25-39 17 0 26 16 25 39l-4 25h-44Z" className={accent ? styles.coatAccent : styles.coat} /><path d="M-12 2c-2-17 2-29 15-31 15-1 22 10 18 27l-6 14H-8Z" className={styles.skin} /><path d="M-9-19c4-12 24-13 31 1l-4 8c-7-8-16-9-27-3Z" className={styles.hair} /><path d="M-18 62v12M18 62v12M-12 20 0 35l12-15M0 35v24" className={styles.personDetail} /></g>;
+}
+
 function Meeting({ beat }: { beat: string }) {
-  const onPrem = ["on-premise", "resuelto", "presupuesto"].includes(beat);
-  const stamped = ["resuelto", "presupuesto"].includes(beat);
-  const budget = beat === "presupuesto";
-  return (
-    <SvgFrame title="Una reunión donde la frase por seguridad cierra la discusión">
-      <path d="M80 490H680" className={styles.line} />
-      <path d="M170 358H590L650 490H110Z" className={styles.surface} />
-      {[210, 350, 490].map((x, i) => (
-        <g key={x} transform={`translate(${x} 0)`}>
-          <circle cx="0" cy="292" r="27" className={i === 1 ? styles.personAccent : styles.person} />
-          <path d="M-42 358c6-40 25-60 42-60s36 20 42 60" className={styles.personBody} />
-        </g>
-      ))}
-      <motion.g animate={{ y: beat === "cansancio" ? 0 : -8 }} transition={{ duration: 0.5, ease }}>
-        {[0, 1, 2, 3].map((i) => (
-          <g key={i} transform={`translate(${250 + i * 42} ${405 - i * 7}) rotate(${i * 2 - 3})`}>
-            <rect width="185" height="112" className={styles.paper} />
-            <path d="M18 28H152M18 48H138M18 68H160" className={styles.paperLine} />
-          </g>
-        ))}
-      </motion.g>
-      <Present show={onPrem} y={26}>
-        <g transform="translate(255 372)">
-          <rect width="250" height="132" className={styles.paperStrong} />
-          <text x="20" y="34" className={styles.svgLabel}>DECISIÓN</text>
-          <text x="20" y="72" className={styles.svgHeadline}>Todo queda adentro.</text>
-          <text x="20" y="101" className={styles.svgSmall}>Motivo: seguridad</text>
-        </g>
-      </Present>
-      <Present show={stamped} y={-30}>
-        <motion.g
-          transform="translate(420 438) rotate(-8)"
-          initial={{ scale: stamped ? 1 : 1.6 }}
-          animate={{ scale: stamped ? 1 : 1.6 }}
-          transition={{ type: "spring", stiffness: 320, damping: 18 }}
-        >
-          <rect x="-58" y="-20" width="116" height="40" rx="2" className={styles.stamp} />
-          <text textAnchor="middle" y="6" className={styles.stampText}>RESUELTO</text>
-        </motion.g>
-      </Present>
-      <Present show={budget} x={-30} delay={0.14}>
-        <g transform="translate(72 76) rotate(-3)">
-          <rect width="250" height="154" className={styles.darkPaper} />
-          <text x="20" y="35" className={styles.svgLabel}>SOLICITUD #1842</text>
-          <text x="20" y="72" className={styles.svgHeadlineLight}>Actualizar sistema</text>
-          <path d="M20 97H220" className={styles.lineDim} />
-          <text x="20" y="126" className={styles.warningText}>PENDIENTE DE APROBACIÓN</text>
-        </g>
-      </Present>
-    </SvgFrame>
-  );
+  const onPrem = ["on-premise", "resuelto", "presupuesto"].includes(beat), resolved = ["resuelto", "presupuesto"].includes(beat);
+  return <ArtFrame scene="meeting" chapter="01" title="Sala de directorio con una decisión de seguridad cerrada antes de evaluar la capacidad"><g transform="translate(50 72)">
+    <path d="M40 80h570v334H40Z" className={styles.roomWall} /><path d="M40 80 0 40h650l-40 40M40 414 0 468h650l-40-54" className={styles.roomPerspective} />{[0,1,2,3,4].map(i=><path key={i} d={`M${65+i*115} 80v334`} className={styles.wallSeam}/>) }
+    <path d="M255 68h140l38 162H217Z" className={styles.lightCone} /><path d="M292 48h66l12 20h-90Z" className={styles.pendant} /><path d="m110 312 94-89h270l91 89-61 82H170Z" className={styles.tableTop} /><path d="m170 394h334l-21 32H190Z" className={styles.tableEdge} />
+    <Person x={186} y={226} /><Person x={326} y={198} accent /><Person x={466} y={226} flip /><g transform="translate(245 282) rotate(-4)"><Report x={0} y={0} /><Report x={54} y={6} rotate={5} /></g><path d="M108 350c-34 20-42 46-36 77M542 350c34 20 42 46 36 77" className={styles.chairLine} />
+    <Reveal show={onPrem} y={18}><g transform="translate(178 106)"><rect width="296" height="82" className={styles.decisionGlass} /><text x="20" y="25" className={styles.microLabel}>DECISIÓN · RIESGO ASUMIDO</text><text x="20" y="57" className={styles.sceneHeadline}>TODO QUEDA ADENTRO</text><path d="M276 14v54M264 23h24M264 59h24" className={styles.bracketMark} /></g></Reveal>
+    <Reveal show={resolved} y={-20}><motion.g transform="translate(408 338) rotate(-11)" animate={{ scale: resolved ? 1 : 1.35 }}><rect x="-58" y="-20" width="116" height="40" className={styles.stampDetailed} /><text textAnchor="middle" y="5" className={styles.stampDetailedText}>RESUELTO</text></motion.g></Reveal>
+    <Reveal show={beat === "presupuesto"} x={-28}><g transform="translate(14 104) rotate(-3)"><path d="M0 0h166l18 18v114H0Z" className={styles.budgetFile} /><text x="15" y="26" className={styles.microLabel}>CAPEX / SOL. 1842</text><text x="15" y="56" className={styles.fileTitle}>ACTUALIZACIÓN</text><path d="M15 74h138M15 88h104" className={styles.fileLines} /><text x="15" y="115" className={styles.alertLabel}>SIN APROBACIÓN</text></g></Reveal>
+  </g></ArtFrame>;
 }
 
 function Desk({ beat }: { beat: string }) {
-  const burden = ["responsabilidad", "veamos"].includes(beat);
-  const focus = beat === "veamos";
-  const tickets = [
-    [70, 76, "ERP · CAÍDO", -5],
-    [470, 82, "USUARIO · ACCESO", 4],
-    [518, 360, "IMPRESORA · OTRA VEZ", -4],
-    [56, 386, "PROYECTO · URGENTE", 3],
-  ] as const;
-  return (
-    <SvgFrame title="Un escritorio de tecnología rodeado por solicitudes urgentes">
-      <path d="M90 470H670" className={styles.line} />
-      <rect x="190" y="330" width="380" height="140" className={styles.desk} />
-      <rect x="276" y="170" width="210" height="142" rx="5" className={styles.monitor} />
-      <rect x="296" y="190" width="170" height="102" className={styles.monitorScreen} />
-      <path d="M356 312V337M321 337H391" className={styles.lineStrong} />
-      <circle cx="224" cy="296" r="28" className={styles.personAccent} />
-      <path d="M180 367c7-47 27-69 44-69 20 0 39 26 47 69" className={styles.personBody} />
-      {tickets.map(([x, y, label, rotate], i) => (
-        <motion.g
-          key={label}
-          transform={`translate(${x} ${y}) rotate(${rotate})`}
-          initial={{ opacity: focus ? 0.26 : 1, x: focus ? (x < 300 ? -18 : 18) : 0 }}
-          animate={{ opacity: focus ? 0.26 : 1, x: focus ? (x < 300 ? -18 : 18) : 0 }}
-          transition={{ duration: 0.45, ease, delay: i * 0.04 }}
-        >
-          <rect width="182" height="92" className={styles.ticket} />
-          <text x="14" y="25" className={styles.svgLabel}>{label}</text>
-          <path d="M14 44H152M14 61H129" className={styles.paperLine} />
-        </motion.g>
-      ))}
-      <g transform="translate(385 350) rotate(2)">
-        <rect width="150" height="96" className={styles.report} />
-        <text x="14" y="25" className={styles.svgLabelDark}>INFORME</text>
-        <text x="14" y="48" className={styles.svgSmallDark}>Entrega</text>
-        <text x="14" y="76" className={styles.svgHeadlineDark}>MIÉRCOLES</text>
-      </g>
-      <Present show={burden} y={-30}>
-        <g transform="translate(222 72)">
-          <rect width="316" height="104" className={styles.burden} />
-          <text x="18" y="31" className={styles.svgLabel}>NUEVA RESPONSABILIDAD</text>
-          <text x="18" y="72" className={styles.svgHeadlineLight}>Proteger toda la infraestructura</text>
-        </g>
-        <path d="M380 176V205" className={styles.tealLine} />
-      </Present>
-      <Present show={focus} y={18}>
-        <text x="380" y="545" textAnchor="middle" className={styles.svgHeadlineLight}>Veamos qué implica.</text>
-      </Present>
-    </SvgFrame>
-  );
+  const burden = ["responsabilidad", "veamos"].includes(beat), focus = beat === "veamos";
+  return <ArtFrame scene="desk" chapter="02" title="Puesto de tecnología saturado de operación y una responsabilidad nueva"><g transform="translate(54 72)">
+    <path d="M30 35h592v430H30Z" className={styles.roomWall} /><path d="M30 350h592M130 350 74 465M522 350l56 115" className={styles.floorGridStrong} />{[0,1,2,3,4,5].map(i=><path key={i} d={`M${58+i*105} 350 ${90+i*90} 465`} className={styles.floorGrid}/>) }
+    <path d="M84 86h164v112H84Z" className={styles.pinboard} />{[0,1,2,3].map(i=><path key={i} d={`M100 ${108+i*21}h${105-i*8}`} className={styles.pinLine}/>) }<rect x="385" y="70" width="184" height="118" className={styles.windowDark} /><path d="M477 70v118M385 129h184" className={styles.windowMullion} />
+    <path d="M118 328h390l52 52H72Z" className={styles.deskTop} /><path d="M94 380h443v62H94Z" className={styles.deskFront} /><g transform="translate(202 189)"><path d="M0 0h146v104H0Z" className={styles.monitorBezel}/><path d="M10 10h126v82H10Z" className={styles.screenGlass}/><path d="M73 104v33M39 137h68" className={styles.hardwareEdge}/><path d="M24 31h72M24 45h92M24 59h54" className={styles.screenCode}/></g>
+    <g transform="translate(359 214) rotate(4)"><path d="M0 0h118v84H0Z" className={styles.monitorBezel}/><path d="M9 9h100v66H9Z" className={styles.screenGlass}/><path d="M23 24h62M23 38h77M23 52h39" className={styles.screenCodeAlert}/></g><Person x={183} y={311} flip accent /><Report x={369} y={331} rotate={2} />
+    {[[38,229,"ERP / CAÍDO",-5],[477,210,"ACCESO / ALTA",4],[480,390,"IMPRESORA",-3],[48,396,"PROYECTO / HOY",2]].map(([x,y,label,r],i)=><motion.g key={String(label)} transform={`translate(${x} ${y}) rotate(${r})`} animate={{opacity:focus?.28:1,x:focus?(Number(x)<300?-12:12):0}} transition={{duration:.5,delay:i*.04}}><path d="M0 0h128v64H0Z" className={styles.ticketDetailed}/><circle cx="14" cy="16" r="3" className={styles.statusAlert}/><text x="26" y="20" className={styles.ticketText}>{label}</text><path d="M13 35h96M13 47h70" className={styles.ticketLines}/></motion.g>)}
+    <Reveal show={burden} y={-18}><g transform="translate(182 81)"><path d="M0 0h292l22 22v74H0Z" className={styles.alertPanel}/><text x="18" y="26" className={styles.microLabel}>NUEVA RESPONSABILIDAD / SIN DOTACIÓN</text><text x="18" y="62" className={styles.sceneHeadline}>PROTEGER TODA LA INFRAESTRUCTURA</text><path d="M292 0v22h22" className={styles.alertCorner}/></g></Reveal>
+  </g></ArtFrame>;
 }
 
 function Server({ beat }: { beat: string }) {
-  const index = ["guardia", "telefono", "inventario", "pruebas", "backup", "costo"].indexOf(beat);
-  const show = (n: number) => index >= n;
-  return (
-    <SvgFrame title="Las tareas permanentes necesarias para proteger un servidor propio">
-      <g transform="translate(285 86)">
-        <rect width="190" height="406" rx="5" className={styles.rack} />
-        {[0, 1, 2, 3, 4, 5].map((i) => (
-          <g key={i} transform={`translate(18 ${25 + i * 58})`}>
-            <rect width="154" height="42" rx="2" className={styles.rackUnit} />
-            <circle cx="124" cy="21" r="4" className={i < 5 ? styles.lightOn : styles.lightOff} />
-            <circle cx="140" cy="21" r="4" className={styles.lightDim} />
-            <path d="M14 14H92M14 24H72" className={styles.lineDim} />
-          </g>
-        ))}
-      </g>
-      <Present show={show(0)} x={-24}>
-        <g transform="translate(53 96)">
-          <circle cx="70" cy="70" r="65" className={styles.clock} />
-          <path d="M70 70V30M70 70l34 20" className={styles.tealLine} />
-          <text x="70" y="93" textAnchor="middle" className={styles.svgHeadlineLight}>24/7</text>
-          <text x="70" y="160" textAnchor="middle" className={styles.svgSmall}>COBERTURA REAL</text>
-        </g>
-      </Present>
-      <Present show={show(1)} x={24}>
-        <g transform="translate(560 92)">
-          <rect width="105" height="168" rx="14" className={styles.phone} />
-          <rect x="10" y="22" width="85" height="120" rx="4" className={styles.monitorScreen} />
-          <path d="M34 13H70" className={styles.lineStrong} />
-          <motion.path
-            d="M-12 42c-15 15-15 45 0 60M117 42c15 15 15 45 0 60"
-            className={styles.warningLine}
-            initial={{ opacity: 0.2 }}
-            animate={{ opacity: [0.2, 1, 0.2] }}
-            transition={{ duration: 1.1, repeat: Infinity }}
-          />
-          <text x="52" y="72" textAnchor="middle" className={styles.warningText}>03:17</text>
-          <text x="52" y="100" textAnchor="middle" className={styles.svgSmall}>ALERTA</text>
-        </g>
-      </Present>
-      <Present show={show(2)} x={-24}>
-        <g transform="translate(45 330)">
-          {[
-            ["INVENTARIO", "ACTUALIZAR"],
-            ["VERSIONES", "PROBAR"],
-            ["SOPORTE", "REEMPLAZAR"],
-          ].map(([a, b], i) => (
-            <g key={a} transform={`translate(0 ${i * 55})`}>
-              <rect width="205" height="44" className={styles.darkPaper} />
-              <text x="12" y="18" className={styles.svgLabel}>{a}</text>
-              <text x="193" y="30" textAnchor="end" className={styles.warningText}>{b}</text>
-            </g>
-          ))}
-        </g>
-      </Present>
-      <Present show={show(3)} x={24}>
-        <g transform="translate(520 315)">
-          <path d="M22 22H150V120H22Z" className={styles.auditBox} />
-          <path d="M44 52l13 13 25-28M44 88l13 13 25-28" className={styles.tealLine} />
-          <text x="95" y="143" textAnchor="middle" className={styles.svgSmall}>PROBAR · CORREGIR · REPETIR</text>
-        </g>
-      </Present>
-      <Present show={show(4)} y={-18}>
-        <g transform="translate(278 510)">
-          <path d="M0 0H204" className={styles.tealLineDashed} />
-          <path d="M18-9l-18 9 18 9M186-9l18 9-18 9" className={styles.tealLine} />
-          <text x="102" y="31" textAnchor="middle" className={styles.svgSmall}>RECUPERAR, NO SOLO COPIAR</text>
-        </g>
-      </Present>
-      <Present show={show(5)} y={32}>
-        <rect x="35" y="34" width="690" height="512" className={styles.costFrame} />
-        <text x="380" y="66" textAnchor="middle" className={styles.warningText}>COSTO PERMANENTE</text>
-      </Present>
-    </SvgFrame>
-  );
+  const index = ["guardia","telefono","inventario","pruebas","backup","costo"].indexOf(beat);
+  return <ArtFrame scene="server" chapter="03" title="Servidor propio abierto como una lámina anatómica con todas sus obligaciones alrededor"><g transform="translate(48 66)">
+    <path d="M66 52h530v416H66Z" className={styles.cutawayRoom}/><path d="M66 380h530l62 64H4Z" className={styles.raisedFloor}/>{[0,1,2,3,4,5].map(i=><path key={i} d={`M${72+i*104} 380 ${28+i*124} 444`} className={styles.floorGrid}/>) }<ServerRack x={238} y={92} active={Math.min(index,5)}/><path d="M219 105h-38v270h38M435 105h38v270h-38" className={styles.rackBrackets}/><path d="M327 79V45M302 45h50" className={styles.sensorStem}/><circle cx="327" cy="39" r="11" className={styles.sensorEye}/><circle cx="327" cy="39" r="3" className={styles.statusLive}/>
+    <Reveal show={index>=0} x={-18}><g transform="translate(88 96)"><circle cx="53" cy="53" r="49" className={styles.clockFace}/>{Array.from({length:12},(_,i)=><path key={i} d="M53 10v7" transform={`rotate(${i*30} 53 53)`} className={styles.clockTick}/>) }<path d="M53 53V25M53 53l24 15" className={styles.clockHands}/><text x="53" y="126" textAnchor="middle" className={styles.microLabel}>COBERTURA 24/7</text></g></Reveal>
+    <Reveal show={index>=1} x={18}><g transform="translate(510 83)"><rect width="74" height="128" rx="10" className={styles.phoneShell}/><rect x="8" y="18" width="58" height="82" className={styles.phoneGlass}/><text x="37" y="48" textAnchor="middle" className={styles.phoneTime}>03:17</text><path d="M18 65h38M18 75h30" className={styles.screenCodeAlert}/><circle cx="37" cy="114" r="5" className={styles.statusAlert}/><motion.path d="M-10 28c-12 17-12 45 0 62M84 28c12 17 12 45 0 62" className={styles.alertWave} animate={{opacity:[.2,1,.2]}} transition={{duration:1.4,repeat:Infinity}}/></g></Reveal>
+    <Reveal show={index>=2} x={-18}><g transform="translate(74 269)">{["INVENTARIO","PARCHES","FIN DE SOPORTE"].map((t,i)=><g key={t} transform={`translate(0 ${i*43})`}><rect width="142" height="32" className={styles.taskStrip}/><text x="11" y="20" className={styles.taskText}>{t}</text><circle cx="127" cy="16" r="4" className={i===2?styles.statusAlert:styles.statusLive}/></g>)}</g></Reveal>
+    <Reveal show={index>=3} x={18}><g transform="translate(491 254)"><path d="M0 0h112v118H0Z" className={styles.auditGlass}/><path d="m19 30 10 10 19-23M19 63l10 10 19-23" className={styles.checkMark}/><path d="M59 31h34M59 64h34M19 93h74" className={styles.auditLines}/><text x="56" y="140" textAnchor="middle" className={styles.microLabel}>PENTEST / FIX / RETEST</text></g></Reveal>
+    <Reveal show={index>=4} y={15}><g transform="translate(232 419)"><path d="M0 0h190" className={styles.backupRail}/><path d="m0 0 16-9v18Zm190 0-16-9v18Z" className={styles.backupArrow}/><rect x="65" y="-18" width="60" height="36" rx="18" className={styles.backupVault}/><text x="95" y="4" textAnchor="middle" className={styles.taskText}>RESTORE</text></g></Reveal>
+    <Reveal show={index>=5} y={-12}><rect x="43" y="30" width="574" height="428" className={styles.costContour}/><text x="330" y="57" textAnchor="middle" className={styles.alertLabel}>COSTO PERMANENTE · NO COMPRA ÚNICA</text></Reveal>
+  </g></ArtFrame>;
 }
 
 function Scale({ beat }: { beat: string }) {
   const index = ["proveedor", "prioridades", "capacidad", "asimetria"].indexOf(beat);
-  return (
-    <SvgFrame title="Comparación entre un equipo local y una infraestructura distribuida">
-      <path d="M380 60V540" className={styles.lineDim} />
-      <text x="200" y="70" textAnchor="middle" className={styles.svgLabel}>UNA EMPRESA</text>
-      <text x="560" y="70" textAnchor="middle" className={styles.svgLabel}>INFRAESTRUCTURA COMPARTIDA</text>
-      <g transform="translate(95 150)">
-        <rect x="0" y="170" width="210" height="150" className={styles.office} />
-        <path d="M-18 170L105 82l123 88" className={styles.lineStrong} />
-        <rect x="74" y="230" width="62" height="90" className={styles.monitorScreen} />
-        <circle cx="105" cy="208" r="22" className={styles.personAccent} />
-        <text x="105" y="352" textAnchor="middle" className={styles.svgSmall}>EL MISMO EQUIPO PARA TODO</text>
-      </g>
-      <g transform="translate(440 115)">
-        {[0, 1, 2].map((row) =>
-          [0, 1, 2].map((col) => (
-            <motion.g
-              key={`${row}-${col}`}
-              transform={`translate(${col * 82} ${row * 96})`}
-              initial={{ opacity: index >= 0 ? 1 : 0.3, y: index >= 0 ? 0 : 8 }}
-              animate={{ opacity: index >= 0 ? 1 : 0.3, y: index >= 0 ? 0 : 8 }}
-              transition={{ duration: 0.4, delay: (row + col) * 0.05 }}
-            >
-              <rect width="62" height="76" rx="2" className={styles.miniRack} />
-              <path d="M10 18H52M10 33H45M10 48H52" className={styles.lineDim} />
-              <circle cx="49" cy="61" r="3" className={styles.lightOn} />
-            </motion.g>
-          )),
-        )}
-        <text x="112" y="320" textAnchor="middle" className={styles.svgSmall}>CAPACIDAD DISTRIBUIDA</text>
-      </g>
-      <Present show={index >= 1} y={18}>
-        {[
-          [62, 90, "SUCURSAL"],
-          [85, 475, "MAQUINARIA"],
-          [250, 102, "CONTRATACIÓN"],
-        ].map(([x, y, label]) => (
-          <g key={label} transform={`translate(${x} ${y})`}>
-            <rect width="130" height="45" className={styles.ticket} />
-            <text x="65" y="27" textAnchor="middle" className={styles.svgLabel}>{label}</text>
-          </g>
-        ))}
-      </Present>
-      <Present show={index >= 2} y={-12}>
-        <path d="M320 285H353" className={styles.warningLine} />
-        <text x="337" y="270" textAnchor="middle" className={styles.warningText}>≠</text>
-      </Present>
-      <Present show={index >= 3} y={18}>
-        <g transform="translate(150 488)">
-          <rect width="460" height="58" className={styles.paperStrong} />
-          <text x="20" y="23" className={styles.svgLabelDark}>EVALUACIÓN INTERNA</text>
-          <text x="20" y="44" className={styles.svgSmallDark}>Capacidad · cobertura · presupuesto · respuesta</text>
-          <text x="435" y="38" textAnchor="end" className={styles.warningText}>PENDIENTE</text>
-        </g>
-      </Present>
-    </SvgFrame>
-  );
+  return <ArtFrame scene="scale" chapter="04" title="Comparación a escala entre un cuarto local y un centro de datos industrial"><g transform="translate(44 73)">
+    <path d="M332 8v448" className={styles.splitRule}/><circle cx="332" cy="231" r="18" className={styles.splitMedallion}/><text x="332" y="237" textAnchor="middle" className={styles.splitMark}>≠</text><text x="18" y="24" className={styles.microLabel}>01 / CAPACIDAD LOCAL</text><text x="365" y="24" className={styles.microLabel}>02 / ESCALA DISTRIBUIDA</text>
+    <g transform="translate(18 55)"><path d="M0 56 42 16h223l34 40v305H0Z" className={styles.closetShell}/><path d="M20 75h259v266H20Z" className={styles.closetInterior}/><ServerRack x={88} y={93} scale={.58} active={3}/><path d="M30 286h69v55H30Z" className={styles.storageBox}/><path d="M207 270h57v71h-57Z" className={styles.utilitySink}/><path d="M31 103c32-25 55-9 78 8M217 98c21 11 31 38 22 67" className={styles.looseCable}/><Person x={55} y={277} accent/><text x="149" y="389" textAnchor="middle" className={styles.sceneCaption}>UN EQUIPO · TODO EL NEGOCIO</text></g>
+    <motion.g transform="translate(365 55)" animate={{opacity:index>=0?1:.42}}><path d="m0 52 48-36h221l42 36v289H0Z" className={styles.datacenterShell}/><path d="M18 70h275v252H18Z" className={styles.datacenterFloor}/>{[0,1,2].map(row=>[0,1,2,3].map(col=><g key={`${row}-${col}`} transform={`translate(${35+col*62} ${88+row*70})`}><rect width="43" height="54" className={styles.miniRackDetailed}/>{[0,1,2].map(i=><path key={i} d={`M7 ${12+i*12}h29`} className={styles.miniVent}/>)}<circle cx="34" cy="45" r="2" className={styles.statusLive}/></g>))}<path d="M24 270h264M24 290h264" className={styles.coolingRail}/><path d="M46 62v-30M108 62v-30M170 62v-30M232 62v-30" className={styles.overheadBus}/><text x="155" y="389" textAnchor="middle" className={styles.sceneCaption}>OPERACIÓN INDUSTRIAL · REDUNDANCIA</text></motion.g>
+    <Reveal show={index>=1} y={10}>{[[36,57,"SUCURSAL"],[170,47,"MAQUINARIA"],[95,431,"CONTRATAR"]].map(([x,y,t])=><g key={String(t)} transform={`translate(${x} ${y})`}><path d="M0 0h92v32H0Z" className={styles.priorityTag}/><text x="46" y="20" textAnchor="middle" className={styles.tagText}>{t}</text></g>)}</Reveal>
+    <Reveal show={index>=3} y={14}><g transform="translate(156 418)"><path d="M0 0h350l18 18v54H0Z" className={styles.evaluationStrip}/><text x="15" y="23" className={styles.microLabel}>EVALUACIÓN INTERNA</text><text x="15" y="50" className={styles.fileTitle}>COBERTURA · PERSONAS · RESPUESTA · CAPITAL</text><text x="340" y="51" textAnchor="end" className={styles.alertLabel}>PENDIENTE</text></g></Reveal>
+  </g></ArtFrame>;
 }
 
 function Evidence({ beat }: { beat: string }) {
   const index = ["ncsc", "permisos", "poweredge", "caminos", "explicar"].indexOf(beat);
-  return (
-    <SvgFrame title="La ubicación del servidor frente a los controles que realmente lo protegen">
-      <Present show={index === 0} y={24}>
-        <g transform="translate(100 92)">
-          <rect width="560" height="390" className={styles.sourceSheet} />
-          <text x="34" y="52" className={styles.svgLabelDark}>NATIONAL CYBER SECURITY CENTRE</text>
-          <text x="34" y="104" className={styles.sourceHeadline}>Delegar responsabilidad</text>
-          <text x="34" y="142" className={styles.sourceHeadline}>a un proveedor confiable.</text>
-          <path d="M34 174H526" className={styles.paperLine} />
-          <text x="34" y="214" className={styles.svgSmallDark}>Elegir el servicio</text>
-          <text x="34" y="251" className={styles.svgSmallDark}>Configurar los accesos</text>
-          <text x="34" y="288" className={styles.svgSmallDark}>Decidir qué datos se utilizan</text>
-          <path d="M34 322H526" className={styles.paperLine} />
-          <text x="34" y="358" className={styles.svgLabelDark}>RESPONSABILIDAD COMPARTIDA</text>
-        </g>
-      </Present>
-      <Present show={index === 1} y={24}>
-        <g transform="translate(92 110)">
-          <rect width="576" height="335" rx="4" className={styles.cloudBox} />
-          <path d="M92 160c0-45 37-82 82-82 32 0 59 18 72 44 14-11 32-18 52-18 45 0 82 37 82 82H92Z" className={styles.cloud} />
-          <text x="234" y="151" textAnchor="middle" className={styles.svgLabelDark}>INFRAESTRUCTURA</text>
-          <rect x="78" y="220" width="420" height="76" className={styles.darkPaper} />
-          <text x="98" y="249" className={styles.svgLabel}>APLICACIÓN Y DATOS</text>
-          <text x="475" y="266" textAnchor="end" className={styles.warningText}>PERMISOS DE MÁS</text>
-          <path d="M430 25C525 56 547 140 503 218" className={styles.warningLineDashed} />
-          <circle cx="440" cy="25" r="22" className={styles.warningFill} />
-          <text x="440" y="31" textAnchor="middle" className={styles.svgHeadlineLight}>!</text>
-        </g>
-      </Present>
-      <Present show={index === 2} y={24}>
-        <g transform="translate(128 78)">
-          <rect x="120" y="334" width="270" height="30" className={styles.wood} />
-          <rect x="175" y="82" width="160" height="250" rx="4" className={styles.rack} />
-          {[0, 1, 2, 3].map((i) => <rect key={i} x="192" y={110 + i * 50} width="126" height="34" className={styles.rackUnit} />)}
-          <path d="M415 334V128M365 128H465M395 128c0-42 40-72 80-48" className={styles.lineStrong} />
-          <path d="M442 95h66l-12 42h-42Z" className={styles.lampShade} />
-          <circle cx="475" cy="145" r="35" className={styles.lampGlow} filter="url(#softGlow)" />
-          <text x="255" y="410" textAnchor="middle" className={styles.svgHeadlineLight}>CERCA ≠ PROTEGIDO</text>
-          <text x="255" y="444" textAnchor="middle" className={styles.svgSmall}>EL POWEREDGE BAJO LA MESITA</text>
-        </g>
-      </Present>
-      <Present show={index >= 3} y={24}>
-        <g transform="translate(82 88)">
-          <rect x="250" y="140" width="180" height="260" className={styles.office} />
-          <rect x="292" y="205" width="96" height="158" className={styles.rack} />
-          {[
-            [30, 110, "CUENTA", "M48 128H250"],
-            [22, 245, "APLICACIÓN", "M60 263H250"],
-            [470, 332, "ACCESO REMOTO", "M470 350H430"],
-          ].map(([x, y, label, path], i) => (
-            <g key={String(label)}>
-              <rect x={Number(x)} y={Number(y)} width="165" height="58" className={styles.darkPaper} />
-              <text x={Number(x) + 82} y={Number(y) + 34} textAnchor="middle" className={styles.svgLabel}>{label}</text>
-              <motion.path d={String(path)} className={styles.warningLineDashed} initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.7, delay: i * 0.12 }} />
-            </g>
-          ))}
-          {index >= 4 ? (
-            <g transform="translate(90 458)">
-              <text x="0" y="0" className={styles.svgSmall}>RIESGO</text>
-              <text x="145" y="0" className={styles.svgSmall}>CONTROL</text>
-              <text x="300" y="0" className={styles.svgSmall}>RESPONSABLE</text>
-              <text x="475" y="0" className={styles.svgSmall}>RECURSOS</text>
-              <path d="M0 18H520" className={styles.tealLine} />
-            </g>
-          ) : null}
-        </g>
-      </Present>
-    </SvgFrame>
-  );
+  return <ArtFrame scene="evidence" chapter="05" title="Servidor bajo una mesa visto como escena forense con sus rutas de ataque"><g transform="translate(49 70)">
+    <path d="M30 30h602v414H30Z" className={styles.noirRoom}/><path d="M30 338h602M118 338 78 444M544 338l40 106" className={styles.floorGridStrong}/><path d="M60 62h198v142H60Z" className={styles.windowDark}/><path d="M159 62v142M60 133h198" className={styles.windowMullion}/><path d="M76 184 236 74" className={styles.rainStroke}/>
+    <path d="M270 274h228v27H270Z" className={styles.sideTable}/><path d="M288 301v77M480 301v77" className={styles.tableLeg}/><ServerRack x={329} y={180} scale={.42} active={3}/><g transform="translate(492 126)"><path d="M18 148V24M-10 24h56" className={styles.lampArm}/><path d="m-6 24h48l18 39H-24Z" className={styles.lampShadeDetailed}/><path d="m-15 63h66l82 211H-97Z" className={styles.lampBeam}/></g><Report x={105} y={295} rotate={-5}/><path d="M516 300h76v38h-76Z" className={styles.routerShell}/>{[0,1,2,3].map(i=><circle key={i} cx={529+i*14} cy="319" r="2.4" className={styles.statusLive}/>) }
+    <Reveal show={index===0} y={18}><g transform="translate(82 91)"><path d="M0 0h490l18 18v245H0Z" className={styles.sourceOverlay}/><text x="24" y="34" className={styles.microLabelDark}>NATIONAL CYBER SECURITY CENTRE / GUIDANCE</text><text x="24" y="78" className={styles.sourceQuote}>Delegar tanta responsabilidad</text><text x="24" y="112" className={styles.sourceQuote}>como sea posible.</text><path d="M24 142h446" className={styles.sourceRule}/>{["Elegir el servicio","Configurar los accesos","Decidir qué datos se utilizan"].map((t,i)=><g key={t}><circle cx="32" cy={174+i*28} r="4" className={styles.sourceDot}/><text x="48" y={179+i*28} className={styles.sourceLine}>{t}</text></g>)}</g></Reveal>
+    <Reveal show={index===1} y={18}><g transform="translate(116 109)"><path d="M0 64C18 18 69 2 108 27c31-42 103-28 113 23 42-21 92 11 91 56H0Z" className={styles.cloudDetailed}/><path d="M38 130h240v78H38Z" className={styles.permissionPanel}/><text x="57" y="158" className={styles.microLabel}>APLICACIÓN / DATOS</text><text x="57" y="188" className={styles.sceneHeadline}>PERMISOS DE MÁS</text><path d="M278 147h72c47 0 52 66 96 66" className={styles.attackPath}/><circle cx="449" cy="213" r="17" className={styles.attackNode}/><text x="449" y="219" textAnchor="middle" className={styles.attackBang}>!</text></g></Reveal>
+    <Reveal show={index===2} y={-10}><text x="330" y="427" textAnchor="middle" className={styles.statementLarge}>CERCA ≠ PROTEGIDO</text><text x="330" y="451" textAnchor="middle" className={styles.sceneCaption}>EL POWEREDGE BAJO LA MESITA DE LUZ</text></Reveal>
+    <Reveal show={index>=3} y={12}>{[[51,106,"CUENTA",298,210],[56,228,"APLICACIÓN",298,257],[493,99,"VPN",435,220],[510,360,"PERSONA",430,300]].map(([x,y,t,tx,ty],i)=><g key={String(t)}><rect x={Number(x)} y={Number(y)} width="116" height="39" className={styles.forensicTag}/><text x={Number(x)+58} y={Number(y)+24} textAnchor="middle" className={styles.tagText}>{t}</text><motion.path d={`M${Number(x)+(Number(x)<300?116:0)} ${Number(y)+20} Q${Number(tx)} ${Number(ty)} 380 300`} className={styles.attackPath} initial={{pathLength:0}} animate={{pathLength:1}} transition={{duration:.7,delay:i*.08}}/></g>)}</Reveal>
+    <Reveal show={index>=4} y={14}><g transform="translate(90 401)">{["RIESGO","CONTROL","RESPONSABLE","RECURSOS"].map((t,i)=><g key={t} transform={`translate(${i*134} 0)`}><text x="0" y="0" className={styles.microLabel}>{t}</text><path d="M0 14h108" className={styles.answerLine}/></g>)}</g></Reveal>
+  </g></ArtFrame>;
 }
 
 function Week({ beat }: { beat: string }) {
-  const ids = ["entrada-ia", "ficcion", "lunes", "martes", "miercoles", "internet", "usb", "sin-computadoras", "enhorabuena", "mochila"];
-  const index = ids.indexOf(beat);
-  const computerGone = index >= 7;
-  const dayNumber = index <= 2 ? "01" : index === 3 ? "02" : index <= 5 ? "03" : index === 6 ? "04" : "05";
-  return (
-    <SvgFrame title="Una oficina pierde herramientas a medida que avanza la semana">
-      <g transform="translate(64 50)">
-        <rect width="632" height="466" className={styles.officeRoom} />
-        <path d="M0 405H632" className={styles.lineStrong} />
-        <rect x="110" y="326" width="412" height="80" className={styles.desk} />
-        <Present show={!computerGone} y={-60}>
-          <rect x="220" y="165" width="220" height="145" rx="5" className={styles.monitor} />
-          <rect x="239" y="184" width="182" height="106" className={styles.monitorScreen} />
-          <path d="M330 310V339M286 339H374" className={styles.lineStrong} />
-        </Present>
-        <g transform="translate(370 337) rotate(2)">
-          <rect width="132" height="74" className={styles.report} />
-          <text x="12" y="22" className={styles.svgLabelDark}>INFORME</text>
-          <text x="12" y="52" className={styles.svgHeadlineDark}>MIÉRCOLES</text>
-        </g>
-        <g transform="translate(22 20)">
-          <rect width="150" height="98" className={styles.calendar} />
-          <text x="18" y="30" className={styles.svgLabelDark}>{index < 3 ? "LUNES" : index < 5 ? "MARTES" : index < 6 ? "MIÉRCOLES" : index < 7 ? "JUEVES" : "VIERNES"}</text>
-          <text x="18" y="76" className={styles.calendarNumber}>{dayNumber}</text>
-        </g>
-        <Present show={index >= 2 && index < 7} y={24}>
-          <g transform="translate(253 202)">
-            <rect width="154" height="58" rx="4" className={styles.appWindow} />
-            <text x="77" y="35" textAnchor="middle" className={styles.svgHeadlineLight}>{index === 5 ? "Google" : "ChatGPT"}</text>
-          </g>
-        </Present>
-        <Present show={index === 2} y={-24}>
-          <rect x="238" y="184" width="184" height="106" className={styles.blockCurtain} />
-          <text x="330" y="242" textAnchor="middle" className={styles.svgLabel}>ACCESO BLOQUEADO</text>
-        </Present>
-        <Present show={index === 3} x={38}>
-          <g transform="translate(500 183) rotate(8)">
-            <rect width="78" height="130" rx="12" className={styles.phone} />
-            <rect x="9" y="18" width="60" height="91" className={styles.monitorScreen} />
-            <path d="M20 40H58V84H20Z" className={styles.reportOutline} />
-          </g>
-          <rect x="488" y="332" width="106" height="74" className={styles.confiscated} />
-          <text x="541" y="375" textAnchor="middle" className={styles.svgLabel}>MÓVILES</text>
-        </Present>
-        <Present show={index === 4} y={18}>
-          <text x="316" y="465" textAnchor="middle" className={styles.bigWednesday}>MIÉRCOLES</text>
-        </Present>
-        <Present show={index === 5} x={-18}>
-          <path d="M253 228H172C125 228 125 146 82 146" className={styles.warningLineDashed} />
-          <path d="M82 128V164M68 146H96" className={styles.warningLine} />
-          <text x="84" y="194" textAnchor="middle" className={styles.warningText}>INTERNET</text>
-        </Present>
-        <Present show={index === 6} y={20}>
-          <g transform="translate(190 346)">
-            <rect width="74" height="32" rx="3" className={styles.usb} />
-            <rect x="74" y="7" width="26" height="18" className={styles.usbMetal} />
-          </g>
-          <path d="M290 354v40M278 354v40M302 354v40" className={styles.warningLine} />
-          <text x="290" y="423" textAnchor="middle" className={styles.svgLabel}>USB BLOQUEADO</text>
-        </Present>
-        <Present show={index === 7} x={46}>
-          <g transform="translate(508 220)">
-            <rect width="90" height="82" className={styles.printer} />
-            <rect x="15" y="-48" width="60" height="70" className={styles.paper} />
-            <path d="M25-28H65M25-12H59" className={styles.paperLine} />
-          </g>
-          <motion.path d="M520 170L620 90" className={styles.warningLine} initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} />
-          <motion.path d="M330 235L650 80" className={styles.warningLine} initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.14 }} />
-        </Present>
-        <Present show={index >= 8} y={20}>
-          <g transform="translate(215 230)">
-            <rect width="205" height="142" className={styles.paperStrong} />
-            <path d="M28 35H170M28 60H156M28 85H176M28 110H130" className={styles.paperLine} />
-            <path d="M175 130l62-104 13 8-62 104Z" className={styles.pencil} />
-          </g>
-        </Present>
-        <Present show={index === 9} x={44}>
-          <g transform="translate(468 212)">
-            <path d="M18 50c0-34 22-50 52-50s52 16 52 50v168H18Z" className={styles.backpack} />
-            <path d="M45 0c0-38 50-38 50 0" className={styles.lineStrong} />
-            <path d="M36 90H104V158H36Z" className={styles.lineDim} />
-          </g>
-          <motion.g initial={{ x: -80, rotate: -8 }} animate={{ x: 0, rotate: 4 }} transition={{ duration: 0.72, ease }}>
-            <rect x="484" y="285" width="92" height="116" className={styles.paperStrong} />
-          </motion.g>
-        </Present>
-      </g>
-      <text x="380" y="555" textAnchor="middle" className={styles.svgSmall}>{index < 2 ? "SITUACIÓN FICTICIA" : "MISMA TAREA · MENOS HERRAMIENTAS"}</text>
-    </SvgFrame>
-  );
+  const ids=["entrada-ia","ficcion","lunes","martes","miercoles","internet","usb","sin-computadoras","enhorabuena","mochila"], index=ids.indexOf(beat), empty=index>=7, day=index<3?"LUN 01":index<5?"MAR 02":index<6?"MIÉ 03":index<7?"JUE 04":"VIE 05";
+  return <ArtFrame scene="week" chapter="06" title="La misma oficina pierde una herramienta cada día hasta quedar vacía"><g transform="translate(46 66)">
+    <path d="M32 28h604v425H32Z" className={styles.weekRoom}/><path d="M32 345h604l34 58H0Z" className={styles.weekFloor}/><path d="M68 80h160v112H68Z" className={styles.windowDark}/><path d="M148 80v112M68 136h160" className={styles.windowMullion}/><path d="M448 65h145v116H448Z" className={styles.shelf}/>{[0,1,2].map(i=><path key={i} d={`M464 ${93+i*28}h112`} className={styles.shelfLine}/>) }<path d="m145 310 72-69h264l63 69-49 68H191Z" className={styles.deskTop}/><path d="M191 378h304v46H191Z" className={styles.deskFront}/>
+    <Reveal show={!empty} y={-28}><g transform="translate(273 159)"><path d="M0 0h172v116H0Z" className={styles.monitorBezel}/><path d="M11 11h150v93H11Z" className={styles.screenGlass}/><path d="M86 116v29M51 145h70" className={styles.hardwareEdge}/><path d="M30 34h74M30 50h112M30 66h83" className={styles.screenCode}/></g></Reveal><Report x={373} y={313} rotate={2}/><Person x={233} y={326} flip accent/>
+    <g transform="translate(54 46)"><path d="M0 0h126l14 14v74H0Z" className={styles.calendarDetailed}/><text x="13" y="22" className={styles.microLabelDark}>SEMANA / INCIDENTE</text><text x="13" y="61" className={styles.calendarDay}>{day}</text><path d="M126 0v14h14" className={styles.paperFold}/></g>
+    <Reveal show={index>=2&&index<7} y={18}><g transform="translate(299 189)"><rect width="120" height="56" className={styles.aiWindow}/><circle cx="21" cy="18" r="4" className={styles.statusLive}/><path d="M34 17h66M18 34h82M18 43h58" className={styles.screenCode}/><text x="60" y="74" textAnchor="middle" className={styles.microLabel}>{index===5?"AI MODE":"CHATGPT"}</text></g></Reveal>
+    <Reveal show={index===2} y={-12}><rect x="294" y="183" width="130" height="68" className={styles.redactionCurtain}/><text x="359" y="221" textAnchor="middle" className={styles.alertLabel}>BLOQUEADO</text></Reveal>
+    <Reveal show={index===3} x={18}><g transform="translate(505 194) rotate(6)"><rect width="61" height="105" rx="9" className={styles.phoneShell}/><rect x="7" y="15" width="47" height="70" className={styles.phoneGlass}/><path d="M14 27h33v40H14Z" className={styles.phonePhoto}/><circle cx="30" cy="95" r="3" className={styles.statusAlert}/></g><g transform="translate(507 315)"><rect width="96" height="48" className={styles.evidenceBag}/><text x="48" y="29" textAnchor="middle" className={styles.tagText}>MÓVILES</text></g></Reveal>
+    <Reveal show={index===5} x={-16}><path d="M299 217C204 217 185 124 104 124" className={styles.attackPath}/><path d="M84 105h40v40H84Z" className={styles.blockedPort}/><path d="m91 112 26 26M117 112l-26 26" className={styles.crossLine}/><text x="104" y="165" textAnchor="middle" className={styles.alertLabel}>INTERNET</text></Reveal>
+    <Reveal show={index===6} y={16}><g transform="translate(206 337)"><path d="M0 0h58v25H0Z" className={styles.usbBody}/><path d="M58 5h23v15H58Z" className={styles.usbMetalDetailed}/><path d="M68 9v7M75 9v7" className={styles.usbContact}/></g><path d="M199 328 286 382M286 328l-87 54" className={styles.crossLine}/><text x="243" y="409" textAnchor="middle" className={styles.alertLabel}>USB</text></Reveal>
+    <Reveal show={index===7} x={22}><g transform="translate(517 239)"><path d="M0 34h84v66H0Z" className={styles.printerDetailed}/><path d="M15 0h54v54H15Z" className={styles.reportPaper}/><path d="M24 17h35M24 27h29" className={styles.documentFine}/></g><path d="M504 222 622 145M283 161 618 122" className={styles.crossLine}/></Reveal>
+    <Reveal show={index>=8} y={16}><g transform="translate(278 233)"><Report x={0} y={0} rotate={-2} large/><path d="m151 119 55-102 11 6-54 102Z" className={styles.pencilDetailed}/><path d="m206 17 16-16-5 22Z" className={styles.pencilTip}/></g><text x="358" y="421" textAnchor="middle" className={styles.statementLarge}>PAPEL + LÁPIZ</text></Reveal>
+    <Reveal show={index===9} x={20}><g transform="translate(515 194)"><path d="M5 52C5 17 25 0 55 0s50 17 50 52v166H5Z" className={styles.backpackDetailed}/><path d="M30 4c0-40 50-40 50 0M22 91h66v75H22Z" className={styles.backpackSeam}/><motion.g animate={{x:[-22,0],rotate:[-6,3]}} transition={{duration:.65,ease}}><rect x="27" y="105" width="58" height="78" className={styles.reportPaper}/></motion.g></g></Reveal>
+    <text x="334" y="477" textAnchor="middle" className={styles.sceneCaption}>{index<2?"RECONSTRUCCIÓN FICTICIA":"MISMA ENTREGA · MENOS HERRAMIENTAS"}</text>
+  </g></ArtFrame>;
 }
 
 function Aftermath({ beat }: { beat: string }) {
-  const index = ["exagerada", "alcance", "shadow-ai"].indexOf(beat);
-  return (
-    <SvgFrame title="Un control cierra un camino mientras otros permanecen abiertos">
-      <g transform="translate(74 96)">
-        <rect x="244" y="155" width="124" height="124" rx="62" className={styles.dataCore} />
-        <text x="306" y="211" textAnchor="middle" className={styles.svgLabelDark}>DATOS</text>
-        <text x="306" y="236" textAnchor="middle" className={styles.svgSmallDark}>DE LA EMPRESA</text>
-        {[
-          ["IA APROBADA", 22, 30, false],
-          ["CUENTA PERSONAL", 430, 20, true],
-          ["CORREO", 12, 345, true],
-          ["DISPOSITIVO", 430, 352, true],
-        ].map(([label, x, y, danger], i) => (
-          <g key={String(label)}>
-            <rect x={Number(x)} y={Number(y)} width="180" height="58" className={danger ? styles.darkPaper : styles.approvedBox} />
-            <text x={Number(x) + 90} y={Number(y) + 35} textAnchor="middle" className={styles.svgLabel}>{label}</text>
-            <motion.path
-              d={`M${Number(x) + 90} ${Number(y) + (Number(y) < 200 ? 58 : 0)} Q306 217 306 ${Number(y) < 200 ? 155 : 279}`}
-              className={danger ? styles.warningLineDashed : styles.tealLine}
-              initial={{ pathLength: 0, opacity: index >= (i === 0 ? 0 : 1) ? 1 : 0.2 }}
-              animate={{ pathLength: 1, opacity: index >= (i === 0 ? 0 : 1) ? 1 : 0.2 }}
-              transition={{ duration: 0.7, delay: i * 0.08 }}
-            />
-          </g>
-        ))}
-        <Present show={index >= 1} y={18}>
-          <path d="M216 140l180 154" className={styles.blockBar} />
-          <text x="228" y="316" className={styles.warningText}>UN CAMINO CERRADO</text>
-        </Present>
-        <Present show={index >= 2} y={18}>
-          <g transform="translate(186 438)">
-            <text x="120" y="0" textAnchor="middle" className={styles.svgHeadlineLight}>MENOS VISIBILIDAD</text>
-            <path d="M20 20H220" className={styles.warningLineDashed} />
-          </g>
-        </Present>
-      </g>
-    </SvgFrame>
-  );
+  const index=["exagerada","alcance","shadow-ai"].indexOf(beat);
+  const nodes=[[-180,-116,"IA APROBADA",false],[178,-118,"CUENTA PERSONAL",true],[-205,112,"CORREO",true],[182,118,"DISPOSITIVO",true]] as const;
+  return <ArtFrame scene="aftermath" chapter="07" title="Mapa forense de caminos visibles e invisibles alrededor de los datos de la empresa"><g transform="translate(380 286)">
+    <ellipse cx="0" cy="16" rx="96" ry="54" className={styles.vaultShadow}/><path d="M-74-68 0-106l74 38v98L0 70l-74-40Z" className={styles.dataVault}/><path d="M0-106v176M-74-68 0-28l74-40" className={styles.vaultEdges}/><circle cx="0" cy="-18" r="28" className={styles.vaultDial}/><path d="M0-18v-15M0-18l13 9" className={styles.vaultHands}/><text x="0" y="44" textAnchor="middle" className={styles.vaultLabel}>DATOS</text>
+    {nodes.map(([x,y,label,danger],i)=><g key={label}><path d={`M${x<0?-75:75} ${y<0?-55:35} Q${x*.45} ${y*.42} ${x} ${y}`} className={danger?styles.shadowRoute:styles.approvedRoute}/><g transform={`translate(${x-66} ${y-24})`}><path d="M0 0h132v48H0Z" className={danger?styles.forensicTag:styles.approvedTag}/><text x="66" y="29" textAnchor="middle" className={styles.tagText}>{label}</text><circle cx={x<0?124:8} cy="24" r="4" className={danger?styles.statusAlert:styles.statusLive}/></g>{danger?<motion.circle cx={x<0?-75:75} cy={y<0?-55:35} r="4" className={styles.tracerDot} animate={{opacity:index>=1?[.2,1,.2]:.12}} transition={{duration:1.3,delay:i*.16,repeat:Infinity}}/>:null}</g>)}
+    <Reveal show={index>=1}><path d="M-108-90 108 91" className={styles.redactionSlash}/><text x="-174" y="-42" transform="rotate(-40 -174 -42)" className={styles.alertLabel}>UN CAMINO CERRADO</text></Reveal>
+    <Reveal show={index>=2} y={12}><g transform="translate(-136 190)"><text x="136" y="0" textAnchor="middle" className={styles.statementLarge}>MENOS VISIBILIDAD</text><path d="M0 18h272" className={styles.answerLine}/><path d="M26 39h220" className={styles.shadowRoute}/></g></Reveal>
+  </g></ArtFrame>;
 }
 
 function Workflow({ beat }: { beat: string }) {
-  const rebuild = ["decidir", "camino", "decisiones"].includes(beat);
-  const ids = rebuild ? ["decidir", "camino", "decisiones"] : ["autoridad", "cerrado", "sorpresa", "intenciones"];
-  const index = ids.indexOf(beat);
-  if (rebuild) {
-    return (
-      <SvgFrame title="Un camino de trabajo con controles y decisiones visibles">
-        <g transform="translate(48 120)">
-          {[
-            [0, "INFORMACIÓN", "Clasificar"],
-            [156, "ACCESO", "Limitar"],
-            [312, "HERRAMIENTA", "Aprobar"],
-            [468, "ACTIVIDAD", "Registrar"],
-          ].map(([x, a, b], i) => (
-            <g key={String(a)} transform={`translate(${x} 0)`}>
-              <motion.rect
-                width="136"
-                height="118"
-                className={i <= index ? styles.approvedBox : styles.darkPaper}
-                initial={{ opacity: i <= index ? 1 : 0.34 }}
-                animate={{ opacity: i <= index ? 1 : 0.34 }}
-              />
-              <text x="68" y="42" textAnchor="middle" className={styles.svgLabel}>{a}</text>
-              <text x="68" y="78" textAnchor="middle" className={styles.svgHeadlineLight}>{b}</text>
-              {i < 3 ? <path d="M136 59H156" className={styles.tealLine} /> : null}
-            </g>
-          ))}
-          <g transform="translate(0 205)">
-            <rect width="604" height="164" className={styles.workflowPanel} />
-            <text x="24" y="37" className={styles.svgLabel}>SOLICITUD · RESUMIR INFORME</text>
-            <path d="M24 62H580" className={styles.lineDim} />
-            {index === 0 ? (
-              <text x="24" y="110" className={styles.svgHeadlineLight}>El camino existe y se puede entender.</text>
-            ) : index === 1 ? (
-              <g>
-                <text x="24" y="101" className={styles.svgSmall}>EXCEPCIÓN EN REVISIÓN</text>
-                <rect x="24" y="119" width="556" height="14" className={styles.progressTrack} />
-                <motion.rect x="24" y="119" width="402" height="14" className={styles.progressFill} initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} style={{ transformOrigin: "left" }} />
-              </g>
-            ) : (
-              <g transform="translate(24 88)">
-                <rect width="150" height="48" className={styles.approvedBox} />
-                <text x="75" y="30" textAnchor="middle" className={styles.svgLabel}>HABILITAR</text>
-                <rect x="202" width="150" height="48" className={styles.ticket} />
-                <text x="277" y="30" textAnchor="middle" className={styles.svgLabel}>ADAPTAR</text>
-                <rect x="404" width="150" height="48" className={styles.confiscated} />
-                <text x="479" y="30" textAnchor="middle" className={styles.svgLabel}>RECHAZAR</text>
-              </g>
-            )}
-          </g>
-        </g>
-      </SvgFrame>
-    );
-  }
-  return (
-    <SvgFrame title="Una solicitud se cierra mientras el trabajo continúa pendiente">
-      <g transform="translate(55 104)">
-        <rect x="0" y="0" width="270" height="330" className={styles.workflowPanel} />
-        <rect x="380" y="0" width="270" height="330" className={styles.workflowPanel} />
-        <text x="24" y="38" className={styles.svgLabel}>SEGURIDAD</text>
-        <text x="404" y="38" className={styles.svgLabel}>OPERACIONES</text>
-        <path d="M24 60H246M404 60H626" className={styles.lineDim} />
-        <g transform="translate(48 104)">
-          <rect width="180" height="116" className={styles.ticket} />
-          <text x="15" y="27" className={styles.svgLabel}>SOLICITUD #291</text>
-          <text x="15" y="58" className={styles.svgSmall}>Uso de IA</text>
-          <text x="15" y="88" className={styles.warningText}>{index >= 1 ? "CERRADA" : "EN REVISIÓN"}</text>
-        </g>
-        <g transform="translate(428 104)">
-          <rect width="180" height="116" className={styles.report} />
-          <text x="15" y="27" className={styles.svgLabelDark}>INFORME</text>
-          <text x="15" y="58" className={styles.svgSmallDark}>Entrega</text>
-          <text x="15" y="88" className={styles.warningText}>PENDIENTE</text>
-        </g>
-        <Present show={index >= 1} x={-24}>
-          <path d="M228 162H428" className={styles.warningLineDashed} />
-          <text x="328" y="147" textAnchor="middle" className={styles.svgSmall}>EL TRABAJO CONTINÚA</text>
-        </Present>
-        <Present show={index >= 2} y={18}>
-          <g transform="translate(200 382)">
-            <rect width="310" height="64" className={styles.darkPaper} />
-            <text x="155" y="38" textAnchor="middle" className={styles.svgLabel}>HERRAMIENTA NO AUTORIZADA</text>
-          </g>
-        </Present>
-        <Present show={index >= 3} y={18}>
-          <text x="135" y="292" textAnchor="middle" className={styles.svgSmall}>AMENAZA DELIBERADA</text>
-          <text x="515" y="292" textAnchor="middle" className={styles.svgSmall}>ERROR POR DESCONOCIMIENTO</text>
-        </Present>
-      </g>
-    </SvgFrame>
-  );
+  const rebuild=["decidir","camino","decisiones"].includes(beat), ids=rebuild?["decidir","camino","decisiones"]:["autoridad","cerrado","sorpresa","intenciones"], index=ids.indexOf(beat);
+  if(rebuild) return <ArtFrame scene="rebuild" chapter="09" title="Arquitectura de trabajo que combina controles, caminos y decisiones visibles"><g transform="translate(54 82)">
+    <path d="M20 20h612v386H20Z" className={styles.controlRoom}/><path d="M20 312h612" className={styles.controlRail}/>
+    {[{x:45,t:"INFORMACIÓN",s:"CLASIFICAR"},{x:190,t:"ACCESO",s:"LIMITAR"},{x:335,t:"HERRAMIENTA",s:"APROBAR"},{x:480,t:"ACTIVIDAD",s:"REGISTRAR"}].map((n,i)=><g key={n.t} transform={`translate(${n.x} 63)`}><path d="M0 0h116v96H0Z" className={i<=index?styles.controlActive:styles.controlInactive}/><text x="58" y="25" textAnchor="middle" className={styles.microLabel}>{n.t}</text><circle cx="58" cy="50" r="14" className={i<=index?styles.controlDialOn:styles.controlDial}/><path d="M58 50v-8M58 50l7 5" className={styles.dialHand}/><text x="58" y="82" textAnchor="middle" className={styles.tagText}>{n.s}</text>{i<3?<path d="M116 48h29" className={styles.approvedRoute}/>:null}</g>)}
+    <g transform="translate(46 211)"><path d="M0 0h560l20 20v143H0Z" className={styles.operationPanel}/><text x="19" y="28" className={styles.microLabel}>CASO 0291 / RESUMIR INFORME / ENTREGA MIÉRCOLES</text><path d="M19 44h522" className={styles.panelRule}/>
+      {index===0?<><path d="M23 72h236v58H23Z" className={styles.approvedTag}/><text x="41" y="98" className={styles.fileTitle}>CAMINO APROBADO</text><text x="41" y="118" className={styles.sceneCaption}>Proveedor · datos · propósito</text></>:null}
+      {index===1?<><text x="22" y="81" className={styles.microLabel}>EXCEPCIÓN EN REVISIÓN · 72%</text><rect x="22" y="98" width="510" height="18" className={styles.progressWell}/><motion.rect x="25" y="101" width="363" height="12" className={styles.progressBright} initial={{scaleX:0}} animate={{scaleX:1}} style={{transformOrigin:"left"}}/><path d="M22 135h178M218 135h142M378 135h154" className={styles.panelTicks}/></>:null}
+      {index===2?<g transform="translate(20 77)">{[[0,"HABILITAR","green"],[181,"ADAPTAR","neutral"],[362,"RECHAZAR","red"]].map(([x,t,c])=><g key={String(t)} transform={`translate(${x} 0)`}><rect width="160" height="58" className={c==="green"?styles.approvedTag:c==="red"?styles.rejectedTag:styles.neutralTag}/><text x="80" y="34" textAnchor="middle" className={styles.fileTitle}>{t}</text></g>)}</g>:null}
+    </g>
+  </g></ArtFrame>;
+  return <ArtFrame scene="workflow" chapter="08" title="Seguridad cierra el ticket mientras operaciones conserva la entrega pendiente"><g transform="translate(55 80)">
+    <path d="M22 28h280v358H22Z" className={styles.departmentLeft}/><path d="M348 28h280v358H348Z" className={styles.departmentRight}/><path d="M302 28h46v358" className={styles.wallGap}/><text x="46" y="61" className={styles.microLabel}>SEGURIDAD / COLA DE SOLICITUDES</text><text x="372" y="61" className={styles.microLabel}>OPERACIONES / PLAN DE ENTREGA</text><path d="M46 77h232M372 77h232" className={styles.panelRule}/>
+    <g transform="translate(70 112)"><path d="M0 0h184l16 16v114H0Z" className={styles.ticketDetailed}/><text x="16" y="26" className={styles.microLabel}>TICKET #0291 · IA</text><text x="16" y="60" className={styles.fileTitle}>RESUMIR INFORME</text><path d="M16 76h150" className={styles.ticketLines}/><text x="16" y="108" className={index>=1?styles.alertLabel:styles.microLabel}>{index>=1?"CERRADO":"EN REVISIÓN"}</text></g><g transform="translate(397 112)"><Report x={0} y={0} large/><text x="201" y="45" className={styles.microLabel}>ESTADO</text><text x="201" y="72" className={styles.alertLabel}>PENDIENTE</text></g><Person x={108} y={318}/><Person x={566} y={318} flip accent/>
+    <Reveal show={index>=1}><motion.path d="M255 178C311 145 342 145 397 178" className={styles.shadowRoute} initial={{pathLength:0}} animate={{pathLength:1}}/><text x="326" y="135" textAnchor="middle" className={styles.sceneCaption}>EL TRABAJO CONTINÚA</text></Reveal>
+    <Reveal show={index>=2} y={12}><g transform="translate(220 339)"><path d="M0 0h214v52H0Z" className={styles.rejectedTag}/><circle cx="20" cy="26" r="5" className={styles.statusAlert}/><text x="120" y="31" textAnchor="middle" className={styles.tagText}>HERRAMIENTA NO AUTORIZADA</text></g></Reveal>
+    <Reveal show={index>=3}><text x="157" y="421" textAnchor="middle" className={styles.sceneCaption}>AMENAZA DELIBERADA</text><text x="489" y="421" textAnchor="middle" className={styles.sceneCaption}>ERROR POR DESCONOCIMIENTO</text><path d="M76 434h162M408 434h162" className={styles.answerLine}/></Reveal>
+  </g></ArtFrame>;
 }
 
 function Finale({ beat }: { beat: string }) {
-  const index = ["cansancio-final", "hacerse-cargo", "informe-final"].indexOf(beat);
-  return (
-    <SvgFrame title="El informe pendiente vuelve al centro de la historia">
-      <g transform="translate(90 78)">
-        <rect x="0" y="0" width="580" height="420" className={styles.officeRoom} />
-        <rect x="70" y="282" width="440" height="80" className={styles.desk} />
-        <rect x="200" y="122" width="180" height="132" rx="5" className={styles.monitor} />
-        <rect x="218" y="140" width="144" height="92" className={styles.monitorScreen} />
-        <path d="M290 254V288" className={styles.lineStrong} />
-        <motion.g
-          transform="translate(222 288)"
-          animate={{ scale: index === 2 ? 1.24 : 1 }}
-          style={{ transformBox: "fill-box", transformOrigin: "center" }}
-          transition={{ duration: 0.75, ease }}
-        >
-          <rect width="180" height="116" className={styles.report} />
-          <text x="18" y="31" className={styles.svgLabelDark}>INFORME</text>
-          <text x="18" y="64" className={styles.svgSmallDark}>Entrega</text>
-          <text x="18" y="94" className={styles.svgHeadlineDark}>MIÉRCOLES</text>
-        </motion.g>
-        <Present show={index >= 1} y={18}>
-          <g transform="translate(22 36)">
-            <rect width="166" height="70" className={styles.darkPaper} />
-            <text x="83" y="27" textAnchor="middle" className={styles.svgLabel}>PROTEGER</text>
-            <text x="83" y="50" textAnchor="middle" className={styles.svgSmall}>Recursos reales</text>
-          </g>
-          <g transform="translate(392 36)">
-            <rect width="166" height="70" className={styles.approvedBox} />
-            <text x="83" y="27" textAnchor="middle" className={styles.svgLabel}>TRABAJAR</text>
-            <text x="83" y="50" textAnchor="middle" className={styles.svgSmall}>Un camino posible</text>
-          </g>
-        </Present>
-      </g>
-    </SvgFrame>
-  );
+  const index=["cansancio-final","hacerse-cargo","informe-final"].indexOf(beat);
+  return <ArtFrame scene="finale" chapter="10" title="La oficina recupera equilibrio entre protección y trabajo"><g transform="translate(56 67)">
+    <path d="M26 25h596v423H26Z" className={styles.finalRoom}/><path d="M26 345h596l38 57H0Z" className={styles.finalFloor}/><path d="M64 72h210v146H64Z" className={styles.sunWindow}/><path d="M169 72v146M64 145h210" className={styles.windowMullion}/><circle cx="116" cy="116" r="29" className={styles.risingSun}/><path d="M65 183c52-38 91-27 132-3 26 15 47 18 77 1" className={styles.skyline}/>
+    <path d="m149 304 74-67h250l68 67-45 70H190Z" className={styles.deskTop}/><path d="M190 374h306v48H190Z" className={styles.deskFront}/><ServerRack x={71} y={236} scale={.37} active={4}/><g transform="translate(294 153)"><path d="M0 0h142v96H0Z" className={styles.monitorBezel}/><path d="M10 10h122v74H10Z" className={styles.screenGlass}/><path d="M71 96v28M43 124h56" className={styles.hardwareEdge}/><path d="M22 28h80M22 44h98M22 60h62" className={styles.screenCode}/></g><Person x={240} y={320}/><Person x={469} y={320} flip accent/>
+    <motion.g transform="translate(286 302)" animate={{scale:index===2?1.2:1,y:index===2?-12:0}} style={{transformBox:"fill-box",transformOrigin:"center"}} transition={{duration:.8,ease}}><Report x={0} y={0} rotate={-1} large/></motion.g>
+    <Reveal show={index>=1} y={12}><g transform="translate(63 65)"><path d="M0 0h148v55H0Z" className={styles.controlActive}/><text x="74" y="22" textAnchor="middle" className={styles.microLabel}>PROTEGER</text><text x="74" y="41" textAnchor="middle" className={styles.tagText}>RECURSOS REALES</text></g><g transform="translate(437 65)"><path d="M0 0h148v55H0Z" className={styles.controlActive}/><text x="74" y="22" textAnchor="middle" className={styles.microLabel}>TRABAJAR</text><text x="74" y="41" textAnchor="middle" className={styles.tagText}>CAMINO POSIBLE</text></g><path d="M211 93h226" className={styles.approvedRoute}/></Reveal>
+    <Reveal show={index===2} y={10}><text x="324" y="448" textAnchor="middle" className={styles.statementLarge}>EL INFORME SIGUE SIENDO PARA EL MIÉRCOLES</text></Reveal>
+  </g></ArtFrame>;
+}
+
+export function CyberHero({ calm }: { calm: boolean }) {
+  return <svg viewBox="0 0 620 650" role="presentation" className={styles.heroPlateSvg}><defs><linearGradient id="heroGlass" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#1c3b3e"/><stop offset=".48" stopColor="#091517"/><stop offset="1" stopColor="#030708"/></linearGradient><radialGradient id="heroLamp"><stop stopColor="#f3d8a3" stopOpacity=".44"/><stop offset="1" stopColor="#f3d8a3" stopOpacity="0"/></radialGradient><pattern id="heroGrid" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0H0V14" className={styles.heroMicroGrid}/></pattern></defs>
+    <path d="M42 58h536v532H42Z" className={styles.heroPlateFrame}/><path d="M57 74h506v500H57Z" fill="url(#heroGrid)" className={styles.heroPlateGround}/><path d="M92 144 196 91h330v365l-104 80H92Z" className={styles.heroRoomShell}/><path d="m92 456 330 80 104-80H196Z" className={styles.heroRoomFloor}/>{[0,1,2,3,4].map(i=><path key={i} d={`M${112+i*80} 461 ${158+i*66} 520`} className={styles.heroPerspectiveLine}/>) }<path d="M196 91v365M526 91 422 144v392" className={styles.heroArchitecture}/><path d="M220 124h272v184H220Z" fill="url(#heroGlass)" className={styles.heroGlassWall}/><path d="M356 124v184M220 216h272" className={styles.heroGlassMullion}/><circle cx="425" cy="158" r="104" fill="url(#heroLamp)"/><path d="M395 92h60l15 23h-90Z" className={styles.heroPendant}/><path d="M425 115v53" className={styles.heroLampCord}/>
+    <g transform="translate(118 178) scale(.72)"><ServerRack x={0} y={0} active={4}/></g><path d="m232 384 67-66h151l66 66-56 70H285Z" className={styles.heroDeskDetailed}/><path d="M285 454h175v31H285Z" className={styles.heroDeskEdge}/><g transform="translate(321 245)"><path d="M0 0h111v76H0Z" className={styles.heroMonitorDetailed}/><path d="M9 9h93v58H9Z" className={styles.heroScreenDetailed}/><path d="M55 76v24M31 100h48" className={styles.heroArchitecture}/><path d="M20 26h56M20 38h70M20 50h43" className={styles.heroCode}/></g><Person x={284} y={387}/><Person x={470} y={390} flip accent/><Report x={354} y={383} rotate={2}/>
+    <motion.path d="M206 256C267 170 376 171 440 228S510 340 464 406" className={styles.heroRoute} initial={{pathLength:calm?1:0}} animate={{pathLength:1}} transition={{duration:1.8,delay:.75,ease}}/>{[{x:206,y:256},{x:440,y:228},{x:464,y:406}].map((p,i)=><motion.circle key={i} cx={p.x} cy={p.y} r="5" className={styles.heroNode} initial={{opacity:0}} animate={{opacity:1}} transition={{delay:calm?0:1.15+i*.22}}/>) }<text x="70" y="100" className={styles.heroPlateCode}>ARCHIVO / SEGURIDAD / 2026</text><text x="550" y="552" textAnchor="end" className={styles.heroPlateCode}>ESCENA 00</text><path d="M42 92V58h34M544 58h34v34M42 556v34h34M544 590h34v-34" className={styles.heroCropMarks}/>
+  </svg>;
 }
 
 export function CyberStage({ visual, activeBeat, calm }: Props) {
-  const key = `${visual}-${calm ? "calm" : "motion"}`;
-  return (
-    <div className={styles.stage} data-calm={calm ? "true" : "false"}>
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div key={key} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.28 }}>
-          {visual === "meeting" ? <Meeting beat={activeBeat} /> : null}
-          {visual === "desk" ? <Desk beat={activeBeat} /> : null}
-          {visual === "server" ? <Server beat={activeBeat} /> : null}
-          {visual === "scale" ? <Scale beat={activeBeat} /> : null}
-          {visual === "evidence" ? <Evidence beat={activeBeat} /> : null}
-          {visual === "week" ? <Week beat={activeBeat} /> : null}
-          {visual === "aftermath" ? <Aftermath beat={activeBeat} /> : null}
-          {visual === "workflow" ? <Workflow beat={activeBeat} /> : null}
-          {visual === "finale" ? <Finale beat={activeBeat} /> : null}
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  );
+  const key=`${visual}-${calm?"calm":"motion"}`;
+  return <div className={styles.stage} data-calm={calm?"true":"false"}><AnimatePresence mode="wait" initial={false}><motion.div key={key} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:.35}}>
+    {visual==="meeting"?<Meeting beat={activeBeat}/>:null}{visual==="desk"?<Desk beat={activeBeat}/>:null}{visual==="server"?<Server beat={activeBeat}/>:null}{visual==="scale"?<Scale beat={activeBeat}/>:null}{visual==="evidence"?<Evidence beat={activeBeat}/>:null}{visual==="week"?<Week beat={activeBeat}/>:null}{visual==="aftermath"?<Aftermath beat={activeBeat}/>:null}{visual==="workflow"?<Workflow beat={activeBeat}/>:null}{visual==="finale"?<Finale beat={activeBeat}/>:null}
+  </motion.div></AnimatePresence></div>;
 }

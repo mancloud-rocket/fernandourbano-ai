@@ -824,3 +824,220 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Forensic illustration system ------------------------------------------------ */
+.stage {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(214, 202, 183, 0.22);
+  background: #08090b;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34), inset 0 0 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.5);
+}
+
+.stageSvg { background: #090a0d; }
+.plateGround { fill: #0b0c0f; }
+.plateGrid { fill-opacity: 0.48; stroke: rgba(224, 210, 190, 0.13); stroke-width: 1; }
+.microGrid, .heroMicroGrid { fill: none; stroke: rgba(218, 204, 183, 0.055); stroke-width: 0.7; }
+.plateVignette, .plateTexture { pointer-events: none; }
+.plateTexture { fill: rgba(255, 255, 255, 0.02); mix-blend-mode: soft-light; }
+.registration { fill: none; stroke: rgba(61, 237, 232, 0.56); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.plateCode, .plateFooter text, .heroPlateCode {
+  fill: #817b72;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+.plateFooter path { fill: none; stroke: rgba(224, 210, 190, 0.16); stroke-width: 1; }
+
+.roomWall, .cutawayRoom, .weekRoom, .noirRoom, .finalRoom, .controlRoom {
+  fill: #111318;
+  stroke: rgba(226, 213, 194, 0.32);
+  stroke-width: 1.2;
+}
+.roomPerspective, .floorGridStrong, .rackBrackets, .sensorStem, .chairLine, .tableLeg,
+.heroArchitecture, .heroPerspectiveLine, .backpackSeam, .wallGap, .skyline {
+  fill: none;
+  stroke: rgba(226, 213, 194, 0.34);
+  stroke-width: 1.35;
+  vector-effect: non-scaling-stroke;
+}
+.floorGrid, .wallSeam, .windowMullion, .shelfLine, .pinLine, .rainStroke {
+  fill: none;
+  stroke: rgba(226, 213, 194, 0.12);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.lightCone, .lampBeam { fill: rgba(242, 213, 160, 0.065); stroke: none; }
+.pendant, .lampShadeDetailed, .heroPendant { fill: #403c37; stroke: rgba(241, 223, 195, 0.52); stroke-width: 1; }
+.tableTop, .deskTop, .sideTable, .heroDeskDetailed {
+  fill: #27282c;
+  stroke: rgba(226, 213, 194, 0.52);
+  stroke-width: 1.2;
+}
+.tableEdge, .deskFront, .heroDeskEdge { fill: #121318; stroke: rgba(226, 213, 194, 0.22); stroke-width: 1; }
+.pinboard, .shelf { fill: #17191d; stroke: rgba(226, 213, 194, 0.24); stroke-width: 1; }
+.windowDark, .sunWindow { fill: #071012; stroke: rgba(61, 237, 232, 0.26); stroke-width: 1; }
+
+.rackShell { fill: #181a1f; stroke: rgba(226, 213, 194, 0.58); stroke-width: 1.6; }
+.rackInner { fill: #06070a; stroke: rgba(0, 0, 0, 0.75); stroke-width: 1; }
+.serverUnit { fill: #101218; stroke: rgba(218, 204, 183, 0.24); stroke-width: 0.8; }
+.ventLines, .driveHandle, .miniVent { fill: none; stroke: rgba(218, 204, 183, 0.28); stroke-width: 0.75; }
+.hardwareEdge { fill: none; stroke: rgba(226, 213, 194, 0.46); stroke-width: 1.2; }
+.cableBundle { fill: none; stroke: #843e38; stroke-width: 4; stroke-linecap: round; }
+.cableFine, .looseCable { fill: none; stroke: rgba(61, 237, 232, 0.45); stroke-width: 1.2; stroke-dasharray: 2 3; }
+.statusLive { fill: #3dede8; filter: drop-shadow(0 0 3px rgba(61, 237, 232, 0.72)); }
+.statusAlert { fill: #ff5a46; filter: drop-shadow(0 0 3px rgba(255, 90, 70, 0.68)); }
+.statusIdle { fill: #3f4147; }
+
+.personShadow, .vaultShadow { fill: rgba(0, 0, 0, 0.45); }
+.coat { fill: #292b31; stroke: rgba(226, 213, 194, 0.26); stroke-width: 1; }
+.coatAccent { fill: #17383a; stroke: rgba(61, 237, 232, 0.48); stroke-width: 1; }
+.skin { fill: #a58e7c; stroke: #17171a; stroke-width: 0.8; }
+.hair { fill: #111217; }
+.personDetail { fill: none; stroke: rgba(226, 213, 194, 0.36); stroke-width: 0.9; }
+
+.reportPaper, .calendarDetailed, .budgetFile, .sourceOverlay {
+  fill: #e7ddcd;
+  stroke: #83786a;
+  stroke-width: 1;
+}
+.paperFold { fill: #bdb09f; stroke: #7d7265; stroke-width: 0.8; }
+.documentKicker, .microLabelDark {
+  fill: #4b453f;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+}
+.documentTitle { fill: #171719; font-family: var(--font-display); font-size: 18px; font-weight: 650; }
+.documentRule, .documentFine, .fileLines, .sourceRule { fill: none; stroke: rgba(30, 27, 25, 0.42); stroke-width: 0.85; }
+.microLabel, .sceneCaption, .tagText, .taskText, .ticketText {
+  fill: #9d968b;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+.sceneHeadline, .statementLarge, .fileTitle {
+  fill: #eee6da;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.sceneHeadline { font-size: 15px; }
+.statementLarge { font-size: 18px; }
+.fileTitle { font-size: 13px; }
+.alertLabel { fill: #ff6b58; font-family: var(--font-mono); font-size: 8px; font-weight: 750; letter-spacing: 0.11em; }
+
+.decisionGlass, .alertPanel, .permissionPanel, .operationPanel, .auditGlass {
+  fill: rgba(13, 16, 20, 0.94);
+  stroke: rgba(61, 237, 232, 0.58);
+  stroke-width: 1.1;
+}
+.alertPanel, .permissionPanel { stroke: rgba(255, 90, 70, 0.66); }
+.bracketMark, .alertCorner, .answerLine, .panelRule, .panelTicks {
+  fill: none;
+  stroke: rgba(61, 237, 232, 0.56);
+  stroke-width: 1;
+}
+.stampDetailed { fill: rgba(255, 90, 70, 0.07); stroke: #ff5a46; stroke-width: 2.2; }
+.stampDetailedText { fill: #ff5a46; font-family: var(--font-mono); font-size: 11px; font-weight: 800; letter-spacing: 0.12em; }
+.ticketDetailed, .taskStrip, .forensicTag, .neutralTag, .priorityTag {
+  fill: #181a20;
+  stroke: rgba(226, 213, 194, 0.3);
+  stroke-width: 1;
+}
+.ticketLines, .auditLines { fill: none; stroke: rgba(226, 213, 194, 0.22); stroke-width: 0.9; }
+.monitorBezel, .phoneShell, .printerDetailed, .routerShell, .usbBody {
+  fill: #24272e;
+  stroke: rgba(226, 213, 194, 0.46);
+  stroke-width: 1.2;
+}
+.screenGlass, .phoneGlass, .aiWindow { fill: #061012; stroke: rgba(61, 237, 232, 0.48); stroke-width: 1; }
+.screenCode { fill: none; stroke: rgba(61, 237, 232, 0.58); stroke-width: 1.1; }
+.screenCodeAlert { fill: none; stroke: rgba(255, 90, 70, 0.65); stroke-width: 1.1; }
+
+.raisedFloor, .weekFloor, .finalFloor, .heroRoomFloor { fill: #101216; stroke: rgba(226, 213, 194, 0.22); stroke-width: 1; }
+.clockFace { fill: #11141a; stroke: rgba(61, 237, 232, 0.7); stroke-width: 1.4; }
+.clockTick, .clockHands { fill: none; stroke: #d7cdbc; stroke-width: 1.2; }
+.phoneTime { fill: #ff7562; font-family: var(--font-mono); font-size: 14px; font-weight: 700; }
+.alertWave, .crossLine, .redactionSlash { fill: none; stroke: #ff5a46; stroke-width: 2.4; }
+.checkMark { fill: none; stroke: #3dede8; stroke-width: 2; }
+.backupRail, .approvedRoute { fill: none; stroke: #3dede8; stroke-width: 1.7; }
+.backupArrow, .backupVault, .controlDialOn { fill: #173f41; stroke: #3dede8; stroke-width: 1; }
+.costContour { fill: none; stroke: #ff5a46; stroke-width: 1.2; stroke-dasharray: 7 5; }
+.sensorEye { fill: #1f2228; stroke: rgba(226, 213, 194, 0.44); stroke-width: 1; }
+
+.splitRule { fill: none; stroke: rgba(226, 213, 194, 0.18); stroke-width: 1; }
+.splitMedallion { fill: #0b0d10; stroke: #ff5a46; stroke-width: 1.2; }
+.splitMark { fill: #ff5a46; font-family: var(--font-display); font-size: 21px; }
+.closetShell, .datacenterShell { fill: #15171c; stroke: rgba(226, 213, 194, 0.38); stroke-width: 1.2; }
+.closetInterior { fill: #0a0c0f; stroke: rgba(255, 90, 70, 0.25); stroke-width: 1; }
+.datacenterFloor { fill: #071113; stroke: rgba(61, 237, 232, 0.23); stroke-width: 1; }
+.storageBox, .utilitySink { fill: #24242a; stroke: rgba(226, 213, 194, 0.28); stroke-width: 1; }
+.miniRackDetailed { fill: #11141a; stroke: rgba(61, 237, 232, 0.48); stroke-width: 0.9; }
+.coolingRail, .overheadBus { fill: none; stroke: rgba(61, 237, 232, 0.32); stroke-width: 1.2; }
+.evaluationStrip { fill: #181a20; stroke: rgba(255, 90, 70, 0.58); stroke-width: 1; }
+
+.lampArm { fill: none; stroke: rgba(226, 213, 194, 0.48); stroke-width: 2; }
+.sideTable { fill: #45382f; }
+.cloudDetailed { fill: #ded5c7; stroke: rgba(61, 237, 232, 0.72); stroke-width: 1.4; }
+.sourceQuote { fill: #191719; font-family: var(--font-display); font-size: 24px; font-weight: 620; }
+.sourceLine { fill: #4d4741; font-family: var(--font-sans); font-size: 11px; }
+.sourceDot { fill: #188d8b; }
+.attackPath, .shadowRoute { fill: none; stroke: #ff5a46; stroke-width: 1.4; stroke-dasharray: 5 5; }
+.attackNode { fill: #8d3027; stroke: #ff8b7a; stroke-width: 1; }
+.attackBang { fill: #fff1e6; font-family: var(--font-mono); font-size: 13px; font-weight: 800; }
+
+.calendarDay { fill: #17171a; font-family: var(--font-display); font-size: 28px; font-weight: 650; }
+.redactionCurtain { fill: rgba(8, 9, 11, 0.96); stroke: #ff5a46; stroke-width: 1.2; }
+.phonePhoto { fill: none; stroke: rgba(226, 213, 194, 0.45); stroke-width: 1; }
+.evidenceBag { fill: rgba(255, 90, 70, 0.1); stroke: rgba(255, 90, 70, 0.7); stroke-width: 1; }
+.blockedPort { fill: #14161b; stroke: #ff5a46; stroke-width: 1; }
+.usbMetalDetailed { fill: #a9a49d; stroke: #e1d9cd; stroke-width: 0.7; }
+.usbContact { fill: none; stroke: #171719; stroke-width: 1; }
+.pencilDetailed { fill: #bd4c3e; stroke: #ff8a77; stroke-width: 0.8; }
+.pencilTip { fill: #d4b994; stroke: #302923; stroke-width: 0.7; }
+.backpackDetailed { fill: #1d2026; stroke: rgba(255, 90, 70, 0.7); stroke-width: 1.5; }
+
+.dataVault { fill: #171a20; stroke: #3dede8; stroke-width: 1.4; }
+.vaultEdges { fill: none; stroke: rgba(61, 237, 232, 0.4); stroke-width: 1; }
+.vaultDial { fill: #080a0d; stroke: rgba(226, 213, 194, 0.64); stroke-width: 1.2; }
+.vaultHands { fill: none; stroke: #ff5a46; stroke-width: 1.4; }
+.vaultLabel { fill: #e8dfd2; font-family: var(--font-mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; }
+.approvedTag, .controlActive { fill: rgba(61, 237, 232, 0.09); stroke: rgba(61, 237, 232, 0.72); stroke-width: 1; }
+.rejectedTag { fill: rgba(255, 90, 70, 0.09); stroke: rgba(255, 90, 70, 0.72); stroke-width: 1; }
+.tracerDot { fill: #ff5a46; }
+
+.controlRail { fill: none; stroke: rgba(226, 213, 194, 0.24); stroke-width: 1; }
+.controlInactive { fill: #14161b; stroke: rgba(226, 213, 194, 0.2); stroke-width: 1; }
+.controlDial { fill: #090b0e; stroke: rgba(226, 213, 194, 0.28); stroke-width: 1; }
+.dialHand { fill: none; stroke: #f0e5d5; stroke-width: 1; }
+.progressWell { fill: #07090c; stroke: rgba(226, 213, 194, 0.23); stroke-width: 1; }
+.progressBright { fill: #3dede8; }
+.departmentLeft { fill: #12151a; stroke: rgba(255, 90, 70, 0.32); stroke-width: 1; }
+.departmentRight { fill: #11181a; stroke: rgba(61, 237, 232, 0.32); stroke-width: 1; }
+
+.risingSun { fill: #d58f62; opacity: 0.72; }
+.heroPlateSvg { width: 100%; height: auto; overflow: visible; }
+.heroPlateFrame { fill: #090a0d; stroke: rgba(61, 237, 232, 0.66); stroke-width: 1.3; }
+.heroPlateGround { stroke: rgba(226, 213, 194, 0.13); stroke-width: 1; }
+.heroRoomShell { fill: #111318; stroke: rgba(226, 213, 194, 0.42); stroke-width: 1.2; }
+.heroGlassWall { stroke: rgba(61, 237, 232, 0.34); stroke-width: 1; }
+.heroGlassMullion, .heroLampCord { fill: none; stroke: rgba(226, 213, 194, 0.24); stroke-width: 1; }
+.heroMonitorDetailed { fill: #282b31; stroke: rgba(226, 213, 194, 0.52); stroke-width: 1; }
+.heroScreenDetailed { fill: #061012; stroke: rgba(61, 237, 232, 0.5); stroke-width: 1; }
+.heroCode { fill: none; stroke: rgba(61, 237, 232, 0.56); stroke-width: 1; }
+.heroRoute { fill: none; stroke: #3dede8; stroke-width: 1.6; stroke-dasharray: 4 5; }
+.heroNode { fill: #3dede8; filter: drop-shadow(0 0 6px rgba(61, 237, 232, 0.75)); }
+.heroCropMarks { fill: none; stroke: rgba(61, 237, 232, 0.7); stroke-width: 1.2; }
