@@ -36,3 +36,19 @@ La experiencia pública sigue fuera de la suite porque Next.js y Vercel resuelve
 - **RPA Studio y Xperience:** no participan. No hay aplicación de escritorio que automatizar ni canal conversacional en este flujo.
 
 Hoy el estado vive en Git y el humano entra mediante edición y revisión del código. En la versión Suite, el estado editorial viviría en PostgreSQL conectado a Nexus; el repositorio conservaría el artefacto publicado y su historial.
+
+## Lista de lanzamiento de El que guía
+
+19 de octubre de 2026. Pedido: integrar el libro y su lista de lectores en el sitio personal, con registro persistente y calidad de interfaz. La página no abre una preventa ni cobra. El autor continúa trabajando en el manuscrito; no hay una fecha pública de lanzamiento.
+
+Se consideraron tres estructuras: extender la página general del autor, presentar una página editorial propia del libro, o insertar el lector completo antes del registro. Se eligió la segunda para que el mensaje, la tapa y la acción formen una unidad y para conservar el lector aprobado como experiencia de lectura independiente.
+
+La identidad procede de los activos reales: cabecera oscura y logo del sitio, Fraunces/Geist ya instaladas, y papel gris, laberinto negro e hilo rojo de la tapa. El libro se compone como objeto con canto y sombra, sin regenerar su arte. El hilo junto al título une la composición, no representa una medición ni un proceso. El formulario vive en la primera columna y aparece antes del objeto en móvil. La cita de la introducción conduce a las discusiones y al autor, sin grilla de beneficios intercambiables.
+
+Referencias: se conserva el capital editorial del sitio y de la tapa aprobada. La página oficial de Atomic Habits (jamesclear.com/atomic-habits) sirve como referencia funcional de portada, propuesta y acceso a un capítulo; no se copiaron diseño, cifras, testimonios o texto. Modern Web Guidance aporta formulario semántico, teclado de correo y autocompletado; al no crear cuentas se usa autocomplete=email, no username ni contraseña.
+
+Estados: vacío, validación nativa, guardado, rechazo de servidor, desconexión y registro confirmado. El servidor exige consentimiento y limita intentos; correo repetido devuelve el mismo resultado sin duplicar ni revelar la lista. El estado positivo llega después de la escritura, y entonces permite abrir el capítulo ya aprobado. La lista no afirma propiedad verificada de los correos: al conectar un servicio de envío habrá que completar confirmación y baja desde cada mensaje. Por ahora la bienvenida y la lectura son inmediatas en pantalla; no se afirma que se envió un correo.
+
+Infraestructura: servicio existente fernando-urbano en Render y espejo Vercel del mismo repositorio, sin un servicio nuevo ni plan nuevo. Registro en el esquema nuevo fu_book de la infraestructura Supabase existente. Sin escrituras a tablas de otros proyectos. Tablas privadas con RLS y rol escritor NOLOGIN limitado al libro; una función de escritura requiere secreto específico de aplicación. El sitio nunca recibe service_role. Las claves viven solo en el entorno privado del servidor. Los datos y el consentimiento no se guardan en Git.
+
+Equivalente Suite del flujo: la página pública sigue en Next.js para composición editorial, metadatos y SEO. SAT003 «Registrar lector» recibiría una solicitud, validaría correo y consentimiento y escribiría únicamente en la lista del libro; Orchestrator guardaría credenciales y resultado, y Nexus daría al autor una consola privada de revisión y bajas. Ese único flujo compartiría disparador, estado y ciclo de vida. RPA Studio, Xperience y AI Studio no hacen falta. Es un mapa de implementación alternativo, no una integración Suite existente ni una autorización para construirla en este encargo.

@@ -16,3 +16,10 @@ services:
         value: production
       - key: NODE_VERSION
         value: 20.18.0
+      # Configured only in the existing service's private environment.
+      - key: BOOK_DATABASE_URL
+        sync: false
+      - key: BOOK_DATABASE_PUBLIC_KEY
+        sync: false
+      - key: BOOK_REGISTRATION_SECRET
+        sync: false

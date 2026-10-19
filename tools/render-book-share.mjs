@@ -1,0 +1,13 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const require=createRequire(path.resolve(root,'../libro-el-que-guia/trailer/film/package.json'));
+const sharp=require('sharp');const opentype=require('opentype.js');
+const font=opentype.loadSync('C:/Windows/Fonts/georgiab.ttf');
+const image=(await readFile(path.join(root,'public/book/tapa-el-que-guia.jpg'))).toString('base64');
+const title=(text,x,y,size)=>`<path d="${font.getPath(text,x,y,size).toPathData(3)}" fill="#222321"/>`;
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#e4e1dc"/><image href="data:image/jpeg;base64,${image}" x="810" y="47" width="330" height="528"/>${title('El que',58,171,122)}${title('guía',58,292,122)}${title('Fernando Urbano',60,548,29)}<path d="M386 282C471 290 461 183 526 205s34 71 66 19" fill="none" stroke="#b72b24" stroke-width="3"/><text x="62" y="383" font-family="Arial" font-size="29" fill="#33342f">Inteligencia artificial y trabajo</text><text x="62" y="430" font-family="Arial" font-size="23" fill="#55564f">Lee el primer capítulo y recibe el aviso de lanzamiento</text></svg>`;
+await sharp(Buffer.from(svg)).jpeg({quality:92}).toFile(path.join(root,'public/book/compartir-el-que-guia.jpg'));
+console.log('Book share image rendered: 1200 × 630');

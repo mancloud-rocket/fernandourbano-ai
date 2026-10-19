@@ -43,5 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
+  entries.push({url:`${SITE_URL}/el-que-guia`,lastModified});
+
   return entries;
 }
