@@ -55,7 +55,7 @@ def newpdf(path,size):
 
 c=newpdf(PDF/'Fernando-Urbano-Speaker-Kit.pdf',(595.28,841.89))
 base(c,1,'Conferencias y medios')
-image(c,A/'fernando-urbano-retrato-ia.png',227,244,368,526)
+image(c,A/'fernando-urbano-retrato-ia-v2.png',227,244,368,526)
 # Clear text field overlaps the image only in its black shoulder area.
 text(c,'Fernando',40,688,57,'Display')
 text(c,'Urbano',40,627,68,'Display',GOLD)
@@ -106,20 +106,20 @@ text(c,'fernando.urbano@rocketbot.com',42,166,13,color=GOLD)
 c.linkURL('mailto:fernando.urbano@rocketbot.com',(42,162,365,180),relative=0)
 text(c,'LinkedIn: /in/f-urcastro',42,143,10)
 c.linkURL('https://www.linkedin.com/in/f-urcastro/',(42,139,265,155),relative=0)
-para(c,'El paquete incluye retrato editorial creado con IA a partir de una foto real, foto original en escenario y piezas de difusión. Bio y credenciales basadas en el sitio personal de Fernando Urbano.',42,106,511,8,11)
+para(c,'El paquete incluye retrato editorial creado con IA a partir de cuatro fotos reales, foto original en escenario y piezas de difusión. Bio y credenciales basadas en el sitio personal de Fernando Urbano.',42,106,511,8,11)
 c.save()
 
 def card(name,w,h,square=False):
     c=newpdf(PDF/(name+'.pdf'),(w,h));c.setFillColor(HexColor(INK));c.rect(0,0,w,h,fill=1,stroke=0)
     if square:
-        image(c,A/'fernando-urbano-retrato-ia.png',w*.35,h*.23,w*.65,h*.77)
+        image(c,A/'fernando-urbano-retrato-ia-v2.png',w*.35,h*.23,w*.65,h*.77)
         text(c,'Fernando',w*.065,h*.80,w*.087,'Display')
         text(c,'Urbano',w*.065,h*.69,w*.108,'Display',GOLD)
         text(c,'Director de Innovación · Rocketbot',w*.07,h*.595,w*.022)
         para(c,'Inteligencia artificial aplicada al negocio',w*.07,h*.25,w*.84,w*.048,w*.055,CREAM,'Display')
         text(c,'fernandourbano-ai.vercel.app',w*.07,h*.065,w*.019,color=GOLD)
     else:
-        image(c,A/'fernando-urbano-retrato-ia.png',w*.57,0,w*.43,h)
+        image(c,A/'fernando-urbano-retrato-ia-v2.png',w*.57,0,w*.43,h)
         text(c,'Fernando',w*.055,h*.72,w*.062,'Display')
         text(c,'Urbano',w*.055,h*.56,w*.079,'Display',GOLD)
         text(c,'Director de Innovación · Rocketbot',w*.06,h*.45,w*.014)
@@ -137,10 +137,10 @@ for p in PDF.glob('*.pdf'):
         page.get_pixmap(matrix=fitz.Matrix(scale,scale),alpha=False).save(PNG/(p.stem+suffix+'.png'))
 bio='FERNANDO URBANO | SPEAKER\nDirector de Innovación · Rocketbot\n\nBIO CORTA\n'+SHORT+'\n\nBIO AMPLIADA\n'+MEDIUM+'\n\nPRESENTACIÓN DEL MODERADOR\n'+INTRO+'\n\nWEB\n'+SITE+'\n\nCONTACTO\nfernando.urbano@rocketbot.com\nhttps://www.linkedin.com/in/f-urcastro/\n'
 (OUT/'Bio-y-presentacion-Fernando-Urbano.txt').write_text(bio,encoding='utf-8-sig')
-(OUT/'LEEME.txt').write_text('Speaker kit de Fernando Urbano · 16 de noviembre de 2026\n\nEl dossier PDF contiene perfil, trayectoria, temas, formatos y contacto. Las piezas 1080x1080 y 1920x1080 son presentaciones generales del speaker, sin datos de un evento específico.\n\nEl retrato editorial fue creado con IA a partir de una fotografía real. No es una sesión fotográfica de estudio. Se incluye una foto original en escenario como alternativa documental. No usar la referencia institucional como retrato público.\n\nBio y trayectoria tomadas del sitio personal y su press kit. El reconocimiento 40 Under 40 se reproduce como figura en esas fuentes; no implica una verificación independiente de la entidad otorgante. No se añadieron fechas, títulos ni logos de eventos aún no informados.\n\nPaleta: negro #0A0A0B, marfil #F4EDE2, dorado #C7A66D. El sitio original utiliza acento teal; el dorado responde al pedido de esta versión speaker.\n',encoding='utf-8-sig')
+(OUT/'LEEME.txt').write_text('Speaker kit de Fernando Urbano · 16 de noviembre de 2026\n\nEl dossier PDF contiene perfil, trayectoria, temas, formatos y contacto. Las piezas 1080x1080 y 1920x1080 son presentaciones generales del speaker, sin datos de un evento específico.\n\nEl retrato editorial fue creado con IA a partir de cuatro fotografías reales. No es una sesión fotográfica de estudio. Se incluye una foto original en escenario como alternativa documental. No usar la referencia institucional como retrato público.\n\nBio y trayectoria tomadas del sitio personal y su press kit. El reconocimiento 40 Under 40 se reproduce como figura en esas fuentes; no implica una verificación independiente de la entidad otorgante. No se añadieron fechas, títulos ni logos de eventos aún no informados.\n\nPaleta: negro #0A0A0B, marfil #F4EDE2, dorado #C7A66D. El sitio original utiliza acento teal; el dorado responde al pedido de esta versión speaker.\n',encoding='utf-8-sig')
 with zipfile.ZipFile(OUT/'Fernando-Urbano-Speaker-Kit.zip','w',zipfile.ZIP_DEFLATED) as z:
     z.write(PDF/'Fernando-Urbano-Speaker-Kit.pdf','Fernando-Urbano-Speaker-Kit.pdf')
     for p in PNG.glob('*1080*.png'):z.write(p,'difusion/'+p.name)
-    for p in (A/'fernando-urbano-retrato-ia.png', A/'fernando-urbano-escenario-original.jpeg'):z.write(p,'fotos/'+p.name)
+    for p in (A/'fernando-urbano-retrato-ia-v2.png', A/'fernando-urbano-escenario-original.jpeg'):z.write(p,'fotos/'+p.name)
     for name in ('Bio-y-presentacion-Fernando-Urbano.txt','LEEME.txt'):z.write(OUT/name,name)
 print('Created 3-page dossier, 2 promotional cards, bios and ZIP.')

@@ -19,3 +19,7 @@ Retrato: herramienta integrada image_gen, sin CLI ni API externa configurada. Ar
 ## Verificación y operación
 
 Generación ejecutada con resultado exitoso. PDF reabierto: 3 páginas, cinco enlaces, texto extraíble en cada página. Se inspeccionaron el montaje de las tres páginas y ambas piezas finales; sin texto cortado o superpuesto observado. No corresponde compilar el sitio porque el cambio no afecta código ejecutado por Next. Kit general sin integración de datos o formularios. No requiere credenciales, servicios adicionales o planes pagos.
+
+## Retrato actualizado con cuatro referencias
+
+16 de noviembre de 2026. Fuente: cuatro archivos JPEG en Downloads llamados `WhatsApp Image 2026-11-16 at 11.11.59`, sin sufijo y con sufijos (1), (2), (3). Las cuatro imágenes se inspeccionaron antes de generar. Se enviaron conjuntamente a image_gen, priorizando las vistas frontales para identidad y las laterales para nariz y mandíbula. No se reutilizó el primer retrato como referencia. Prompt íntegro en `PROMPT-RETRATO-V2.txt`. Resultado visto: pelo y barba corta más cercanos a las referencias; la semejanza no se presenta como certificada ni exacta. Activo vigente `assets/fernando-urbano-retrato-ia-v2.png`; versión anterior preservada. Las cuatro fotos personales originales siguen en Downloads y no se añaden al ZIP ni al repositorio. Se actualizó el generador y se regeneró el paquete.
