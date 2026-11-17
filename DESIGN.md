@@ -1,5 +1,11 @@
 # Dirección del sitio personal
 
+## Título del inicio · 17/11/2026
+
+Se corrigió la extensión al 120 % de la segunda línea del hero. `HeroManifestoArt` contiene ahora ambas partes dentro de la columna con `container-type: inline-size`; la escala local usa `clamp(2.75rem, calc(1rem + 9cqw), 6.875rem)` y permite reflujo sin altura fija. Se conservan fotografía, animación y tipografía. Se descartó recortar el texto porque ocultaría contenido.
+
+Fuentes: modern-web-guidance, `typography`, sobre escala fluida con unidades relativas y reflujo; diseno-producto, experiencia y acabado, para conservar la composición existente en esta corrección puntual. Se verificaron límites de palabras frente al retrato, ancho de columna y scroll horizontal en ES/EN a 320, 390, 768, 1024 y 1440 CSS px. `npm run build` completó compilación, TypeScript y generación de rutas.
+
 ## Ensayo visual de ciberseguridad
 
 Actualizado el 21 de septiembre de 2026.

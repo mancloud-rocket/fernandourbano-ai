@@ -82,11 +82,11 @@ export function HeroManifestoArt({ locale }: Props) {
         </motion.div>
 
         <div className="mt-12 grid gap-y-12 md:mt-16 md:grid-cols-12 md:gap-x-6">
-          {/* Manifesto — left column, but the italic tail extends across the gutter */}
-          <div className="relative md:col-span-7 md:col-start-1">
-            <h1 className="relative z-20">
+          {/* Size the headline within its own column, clear of the portrait. */}
+          <div className="relative min-w-0 [container-type:inline-size] md:col-span-7 md:col-start-1">
+            <h1 className="hero-manifesto-title display-xxl relative z-20 text-cream">
               <span className="sr-only">{`${lead} ${tail}`}</span>
-              <span aria-hidden className="display-xxl block text-cream">
+              <span aria-hidden className="block">
                 {leadWords.map((w, i) => (
                   <motion.span
                     key={`lead-${i}`}
@@ -102,7 +102,7 @@ export function HeroManifestoArt({ locale }: Props) {
               </span>
               <span
                 aria-hidden
-                className="display-xxl mt-2 block w-full text-cream italic md:relative md:z-30 md:w-[120%]"
+                className="mt-2 block italic"
                 style={{ fontVariationSettings: '"opsz" 144, "SOFT" 80, "WONK" 1' }}
               >
                 {tailWords.map((w, i) => (
