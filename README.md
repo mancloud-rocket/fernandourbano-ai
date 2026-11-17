@@ -4,6 +4,10 @@ Sitio personal de **Fernando Urbano** — Director de Innovación en Rocketbot, 
 
 Construido con Next.js 16 + TypeScript + Tailwind v4 + Framer Motion. Bilingüe ES/EN, App Router, deploy en Vercel.
 
+## Corrección del inicio · 17/11/2026
+
+El título de inicio conserva la tipografía y la cursiva, pero se ajusta al ancho de su columna sin invadir el retrato. Comprobado en español e inglés a 320, 390, 768, 1024 y 1440 CSS px, sin solapamientos ni desbordamiento horizontal; compilación de producción correcta.
+
 ## Stack
 
 - **Next.js 16.2** (App Router, Turbopack)

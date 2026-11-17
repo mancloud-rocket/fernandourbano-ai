@@ -122,6 +122,12 @@
   font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
 }
 
+/* Scale the home headline against its column rather than the whole viewport. */
+.hero-manifesto-title {
+  font-size: clamp(2.75rem, calc(1rem + 9cqw), 6.875rem);
+  text-wrap: balance;
+}
+
 @utility display-xl {
   font-family: var(--font-display);
   font-weight: 500;
